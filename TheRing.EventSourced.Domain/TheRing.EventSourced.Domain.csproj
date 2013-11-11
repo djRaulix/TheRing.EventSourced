@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2D0BBB25-1AC3-476A-A5CF-F637A1FFFA4C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TheRing.EventSourced.Domain</RootNamespace>
+    <AssemblyName>TheRing.EventSourced.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Aggregate\AggregateRootState.cs" />
+    <Compile Include="Aggregate\AggregateRoot.cs" />
+    <Compile Include="Aggregate\AggregateRoot`1.cs" />
+    <Compile Include="Repository\Create\AggregateRootCreatorDecorator.cs" />
+    <Compile Include="Repository\Create\AggregateRootCreator.cs" />
+    <Compile Include="Repository\Create\ICreateAggregateRoot.cs" />
+    <Compile Include="Repository\Create\IAggregateRootFactory.cs" />
+    <Compile Include="Repository\Get\AggregateRootGetter.cs" />
+    <Compile Include="Repository\Get\AggregateRootGetterDecorator.cs" />
+    <Compile Include="Repository\Get\IGetAggregateRoot.cs" />
+    <Compile Include="Exceptions\UnKnownAggregateRootException.cs" />
+    <Compile Include="Repository\IGetStreamNameFromAggregateRoot.cs" />
+    <Compile Include="Repository\Save\AggregateRootSaverDecorator.cs" />
+    <Compile Include="Repository\Save\AggregateRootSaver.cs" />
+    <Compile Include="Repository\Save\ISaveAggregateRoot.cs" />
+    <Compile Include="Repository\Save\SnapshotAggregateRootSaverDecorator.cs" />
+    <Compile Include="Snapshot\IKeepSnapshot.cs" />
+    <Compile Include="Repository\Create\SnapshotAggregateRootCreatorDecorator.cs" />
+    <Compile Include="Repository\IAggregateRootRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Aggregate\AggregateRootStateLess.cs" />
+    <Compile Include="Snapshot\InMemorySnapshotKeeper.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\TheRing.EventSourced.Core\TheRing.EventSourced.Core.csproj">
+      <Project>{B88AD40E-6724-427F-AD21-D2215DC646BC}</Project>
+      <Name>TheRing.EventSourced.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
