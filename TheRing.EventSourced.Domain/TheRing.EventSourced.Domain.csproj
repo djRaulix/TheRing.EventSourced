@@ -42,6 +42,7 @@
     <Compile Include="Aggregate\AggregateRootState.cs" />
     <Compile Include="Aggregate\AggregateRoot.cs" />
     <Compile Include="Aggregate\AggregateRoot`1.cs" />
+    <Compile Include="Repository\AggregateRootRepository.cs" />
     <Compile Include="Repository\Create\AggregateRootCreatorDecorator.cs" />
     <Compile Include="Repository\Create\AggregateRootCreator.cs" />
     <Compile Include="Repository\Create\ICreateAggregateRoot.cs" />
