@@ -45,10 +45,13 @@
     <Compile Include="Repository\AggregateRootRepository.cs" />
     <Compile Include="Repository\Create\AggregateRootCreatorDecorator.cs" />
     <Compile Include="Repository\Create\AggregateRootCreator.cs" />
+    <Compile Include="Repository\Create\AggregateRootFactory.cs" />
+    <Compile Include="Repository\Create\DiAggregateRootFactory.cs" />
     <Compile Include="Repository\Create\ICreateAggregateRoot.cs" />
     <Compile Include="Repository\Create\IAggregateRootFactory.cs" />
     <Compile Include="Repository\Get\AggregateRootGetter.cs" />
     <Compile Include="Repository\Get\AggregateRootGetterDecorator.cs" />
+    <Compile Include="Repository\Get\EventsAggregateRootGetterDecorator.cs" />
     <Compile Include="Repository\Get\IGetAggregateRoot.cs" />
     <Compile Include="Exceptions\UnKnownAggregateRootException.cs" />
     <Compile Include="Repository\IGetStreamNameFromAggregateRoot.cs" />
@@ -57,7 +60,7 @@
     <Compile Include="Repository\Save\ISaveAggregateRoot.cs" />
     <Compile Include="Repository\Save\SnapshotAggregateRootSaverDecorator.cs" />
     <Compile Include="Snapshot\IKeepSnapshot.cs" />
-    <Compile Include="Repository\Create\SnapshotAggregateRootCreatorDecorator.cs" />
+    <Compile Include="Repository\Get\SnapshotAggregateRootGetterDecorator.cs" />
     <Compile Include="Repository\IAggregateRootRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Aggregate\AggregateRootStateLess.cs" />
