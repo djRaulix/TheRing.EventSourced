@@ -42,6 +42,9 @@
     <Compile Include="ISAveEventsOnStream.cs" />
     <Compile Include="IGetEventsOnStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\Activator\Activator`2.cs" />
+    <Compile Include="Reflection\Activator\Activator`1.cs" />
+    <Compile Include="Reflection\Activator\TypeExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
