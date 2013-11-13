@@ -31,7 +31,6 @@
         public TAgg Get<TAgg>(Guid id) where TAgg : AggregateRoot
         {
             var aggregateRoot = this.aggregateRootCreator.Create<TAgg>(id);
-
             return aggregateRoot;
         }
 

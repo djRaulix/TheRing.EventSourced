@@ -14,7 +14,7 @@
     {
         #region Static Fields
 
-        private static readonly ConcurrentDictionary<Type, Func<object>> _constructors =
+        private static readonly ConcurrentDictionary<Type, Func<object>> constructors =
             new ConcurrentDictionary<Type, Func<object>>();
 
         #endregion
@@ -24,10 +24,10 @@
         public static object CreateInstance(this Type type)
         {
             Func<object> constructor;
-            if (!_constructors.TryGetValue(type, out constructor))
+            if (!constructors.TryGetValue(type, out constructor))
             {
                 constructor = type.GetConstructorDelegate();
-                _constructors.TryAdd(type, constructor);
+                constructors.TryAdd(type, constructor);
             }
 
             return constructor();
@@ -50,11 +50,6 @@
 
         public static Delegate GetConstructorDelegate(this Type type, Type delegateType)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException("type");
-            }
-
             if (delegateType == null)
             {
                 throw new ArgumentNullException("delegateType");

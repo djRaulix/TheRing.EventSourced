@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheRing.EventSourced.Domain
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSample", "WebSample\WebSample.csproj", "{26611148-D95E-43FE-9EB8-262110BA8F59}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheRing.EventSourced.Application", "TheRing.EventSourced.Application\TheRing.EventSourced.Application.csproj", "{C5AC99BF-7070-4812-A6D3-04C99188FE77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thering.EventSourced.Eventing", "Thering.EventSourced.Eventing\Thering.EventSourced.Eventing.csproj", "{24FDEA91-C3A2-4D0B-881D-4F68D6A5B2BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{26611148-D95E-43FE-9EB8-262110BA8F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26611148-D95E-43FE-9EB8-262110BA8F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26611148-D95E-43FE-9EB8-262110BA8F59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5AC99BF-7070-4812-A6D3-04C99188FE77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5AC99BF-7070-4812-A6D3-04C99188FE77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5AC99BF-7070-4812-A6D3-04C99188FE77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5AC99BF-7070-4812-A6D3-04C99188FE77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24FDEA91-C3A2-4D0B-881D-4F68D6A5B2BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24FDEA91-C3A2-4D0B-881D-4F68D6A5B2BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24FDEA91-C3A2-4D0B-881D-4F68D6A5B2BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24FDEA91-C3A2-4D0B-881D-4F68D6A5B2BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

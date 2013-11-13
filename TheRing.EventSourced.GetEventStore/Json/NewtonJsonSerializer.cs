@@ -8,8 +8,6 @@
 
     using EventStore.ClientAPI;
 
-    using Magnum;
-
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
@@ -58,7 +56,7 @@
             var metadata = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(eventHeaders, this.serializerSettings));
             var typeName = @event.GetType().Name;
 
-            return new EventData(CombGuid.Generate(), typeName, true, data, metadata);
+            return new EventData(Guid.NewGuid(), typeName, true, data, metadata);
         }
 
         #endregion

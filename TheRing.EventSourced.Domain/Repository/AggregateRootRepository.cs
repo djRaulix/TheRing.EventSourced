@@ -1,11 +1,15 @@
 ﻿namespace TheRing.EventSourced.Domain.Repository
 {
+    #region using
+
     using System;
 
     using TheRing.EventSourced.Domain.Aggregate;
     using TheRing.EventSourced.Domain.Repository.Create;
     using TheRing.EventSourced.Domain.Repository.Get;
     using TheRing.EventSourced.Domain.Repository.Save;
+
+    #endregion
 
     public class AggregateRootRepository : IAggregateRootRepository
     {
