@@ -12,6 +12,8 @@
 
         public Guid AggregateRootId { get; set; }
 
+        public int? ExpectedVersion { get; set; }
+
         #endregion
     }
 }

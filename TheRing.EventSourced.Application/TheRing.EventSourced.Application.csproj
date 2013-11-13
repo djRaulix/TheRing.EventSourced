@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandler.cs" />
     <Compile Include="CreateCommand.cs" />
     <Compile Include="IDispatch.cs" />
     <Compile Include="CreateAggregateHandler.cs" />

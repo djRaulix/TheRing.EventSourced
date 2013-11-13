@@ -2,11 +2,17 @@
 {
     public class Result
     {
+        #region Fields
+
         public readonly string ErrorMessage;
 
         public readonly string ErrorName;
 
         public readonly bool Ok;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         public Result(bool ok)
         {
@@ -18,5 +24,7 @@
             this.ErrorMessage = errorMessage;
             this.ErrorName = errorName;
         }
+
+        #endregion
     }
 }

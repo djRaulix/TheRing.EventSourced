@@ -1,12 +1,14 @@
 ﻿namespace TheRing.EventSourced.Application
 {
-    using TheRing.EventSourced.Core;
+    #region using
+
     using TheRing.EventSourced.Domain.Aggregate;
     using TheRing.EventSourced.Domain.Repository;
 
+    #endregion
+
     public class CreateAggregateHandler<TAgg, TCommand> : Handler<TCommand>
-        where TAgg : AggregateRoot
-        where TCommand : CreateCommand
+        where TAgg : AggregateRoot where TCommand : CreateCommand
     {
         #region Fields
 
@@ -18,9 +20,7 @@
 
         #region Constructors and Destructors
 
-        public CreateAggregateHandler(
-            IAggregateRootRepository repository, 
-            IRunCommand<TAgg, TCommand> runCommand)
+        public CreateAggregateHandler(IAggregateRootRepository repository, IRunCommand<TAgg, TCommand> runCommand)
         {
             this.repository = repository;
             this.runCommand = runCommand;

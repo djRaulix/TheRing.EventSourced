@@ -1,7 +1,11 @@
 ﻿namespace TheRing.EventSourced.Application
 {
+    #region using
+
     using System;
     using System.Threading.Tasks;
+
+    #endregion
 
     public class Dispatcher : IDispatch
     {
