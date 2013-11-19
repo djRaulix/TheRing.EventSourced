@@ -27,11 +27,7 @@
 
         internal abstract void LoadFromHistory(IEnumerable<object> history);
 
-        internal abstract void RestoreFromSnapshot(object snapshot);
-
-        internal abstract object TakeSnapshot();
-
-        protected abstract void Apply(object @event);
+        internal abstract void TakeSnapshot();
 
         #endregion
     }

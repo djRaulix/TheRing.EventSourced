@@ -2,11 +2,16 @@
 {
     #region using
 
+    using System;
     using System.Collections.Generic;
 
     using EventStore.ClientAPI;
+    using EventStore.ClientAPI.SystemData;
 
     using TheRing.EventSourced.Core;
+
+    using Thering.EventSourced.Eventing;
+
     using TheRing.EventSourced.GetEventStore.Exceptions;
 
     #endregion
@@ -41,18 +46,27 @@
 
         #region Public Methods and Operators
 
-        public IEnumerable<object> Get(string streamName, int fromVersion = 0, int toVersion = int.MaxValue)
+        public IEnumerable<object> Get(string streamName, int fromVersion, int toVersion, bool backward = false)
         {
-            var sliceCount = this.getSliceCount(fromVersion, toVersion);
+            Func<int,int,StreamEventsSlice> read;
+            Func<int, int, int> getSliceCnt;
+            if (backward)
+            {
+                read = (start, count) => this.eventStoreConnection.ReadStreamEventsBackward(streamName,start,count, false);
+                getSliceCnt = this.getSliceCount;
+            }
+            else
+            {
+                read = (start, count) => this.eventStoreConnection.ReadStreamEventsForward(streamName, start, count, false);
+                getSliceCnt = this.getSliceCount;
+            }
+            
+            var sliceCount = getSliceCnt(fromVersion, toVersion);
             var endOfStream = false;
 
             while (!(sliceCount <= 0 || endOfStream))
             {
-                var currentSlice = this.eventStoreConnection.ReadStreamEventsForward(
-                    streamName, 
-                    fromVersion, 
-                    sliceCount, 
-                    false);
+                var currentSlice = read(fromVersion, sliceCount);
 
                 if (currentSlice.Status == SliceReadStatus.StreamNotFound)
                 {

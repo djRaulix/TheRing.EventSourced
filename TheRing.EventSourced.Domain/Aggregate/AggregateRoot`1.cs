@@ -53,34 +53,38 @@
 
         internal override sealed void LoadFromHistory(IEnumerable<object> history)
         {
-            foreach (var @event in history)
+            var enumerator = history.GetEnumerator();
+            enumerator.MoveNext();
+            this.Init((dynamic)enumerator.Current);
+            while (enumerator.MoveNext())
             {
-                this.ApplyEvent(@event);
+                this.When(enumerator.Current);
             }
         }
 
-        internal override sealed void RestoreFromSnapshot(object snapshot)
+        internal override sealed void TakeSnapshot()
         {
-            var state = snapshot as TState;
-
-            if (state != null)
-            {
-                this.state = state;
-            }
+            this.Apply(this.state);
         }
 
-        internal override sealed object TakeSnapshot()
+        protected void Apply(object @event)
         {
-            return this.state;
-        }
-
-        protected override sealed void Apply(object @event)
-        {
-            this.ApplyEvent(@event);
+            this.When(@event);
             this.changes.Enqueue(@event);
         }
 
-        private void ApplyEvent(object @event)
+        private void Init(TState snapshot)
+        {
+            this.state = snapshot;
+            this.state.Version++;
+        }
+
+        private void Init(object @event)
+        {
+            this.When(@event);
+        }
+
+        private void When(dynamic @event)
         {
             this.state.When(@event);
             this.state.Version++;

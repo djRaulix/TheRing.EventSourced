@@ -1,4 +1,4 @@
-﻿namespace TheRing.EventSourced.Core
+﻿namespace Thering.EventSourced.Eventing
 {
     #region using
 
@@ -10,7 +10,7 @@
     {
         #region Public Methods and Operators
 
-        IEnumerable<object> Get(string streamName, int fromVersion = 0, int toVersion = int.MaxValue);
+        IEnumerable<object> Get(string streamName, int fromVersion, int toVersion, bool backWard = false);
 
         #endregion
     }

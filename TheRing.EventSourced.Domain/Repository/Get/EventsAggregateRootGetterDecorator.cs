@@ -7,6 +7,8 @@
     using TheRing.EventSourced.Core;
     using TheRing.EventSourced.Domain.Exceptions;
 
+    using Thering.EventSourced.Eventing;
+
     #endregion
 
     public class EventsAggregateRootGetterDecorator : AggregateRootGetterDecorator
