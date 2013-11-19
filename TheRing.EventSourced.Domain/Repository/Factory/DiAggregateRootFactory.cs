@@ -1,4 +1,4 @@
-﻿namespace TheRing.EventSourced.Domain.Repository.Create
+﻿namespace TheRing.EventSourced.Domain.Repository.Factory
 {
     #region using
 
@@ -8,7 +8,7 @@
 
     #endregion
 
-    public class DiAggregateRootCreator : ICreateAggregateRoot
+    public class DiAggregateRootFactory : IAggregateRootFactory
     {
         #region Fields
 
@@ -18,7 +18,7 @@
 
         #region Constructors and Destructors
 
-        public DiAggregateRootCreator(IServiceProvider resolver)
+        public DiAggregateRootFactory(IServiceProvider resolver)
         {
             this.resolver = resolver;
         }
@@ -27,11 +27,9 @@
 
         #region Public Methods and Operators
 
-        public TAgg Create<TAgg>(Guid id) where TAgg : AggregateRoot
+        public TAgg Create<TAgg>() where TAgg : AggregateRoot
         {
-            var agg = (TAgg)this.resolver.GetService(typeof(TAgg));
-            agg.Id = id;
-            return agg;
+            return (TAgg)this.resolver.GetService(typeof(TAgg));
         }
 
         #endregion

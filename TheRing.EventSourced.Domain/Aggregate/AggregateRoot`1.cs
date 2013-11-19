@@ -13,9 +13,18 @@
 
         private readonly Queue<object> changes = new Queue<object>();
 
+        private int originalVersion;
+
+        private int snapshotVersion;
+
         private TState state = new TState();
 
         #endregion
+
+        protected AggregateRoot()
+        {
+            this.state.Version = this.snapshotVersion = this.originalVersion = -1;
+        }
 
         #region Public Properties
 
@@ -39,6 +48,22 @@
             }
         }
 
+        internal override int OriginalVersion
+        {
+            get
+            {
+                return this.originalVersion;
+            }
+        }
+
+        internal override int SnapshotVersion
+        {
+            get
+            {
+                return this.snapshotVersion;
+            }
+        }
+
         protected TState State
         {
             get
@@ -53,13 +78,17 @@
 
         internal override sealed void LoadFromHistory(IEnumerable<object> history)
         {
-            var enumerator = history.GetEnumerator();
-            enumerator.MoveNext();
-            this.Init((dynamic)enumerator.Current);
-            while (enumerator.MoveNext())
+            foreach (var @event in history)
             {
-                this.When(enumerator.Current);
+                this.When(@event);
             }
+
+            this.originalVersion = this.state.Version;
+        }
+
+        internal override sealed bool RestoreSnapshot(dynamic snapshot)
+        {
+            return this.TryRestoreSnapshot(snapshot);
         }
 
         internal override sealed void TakeSnapshot()
@@ -73,15 +102,16 @@
             this.changes.Enqueue(@event);
         }
 
-        private void Init(TState snapshot)
+        private bool TryRestoreSnapshot(TState snapshot)
         {
             this.state = snapshot;
-            this.state.Version++;
+            this.originalVersion = this.snapshotVersion = ++this.state.Version;
+            return true;
         }
 
-        private void Init(object @event)
+        private bool TryRestoreSnapshot(object @event)
         {
-            this.When(@event);
+            return false;
         }
 
         private void When(dynamic @event)

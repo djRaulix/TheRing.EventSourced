@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        private Guid id;
+        private readonly Guid id = Guid.NewGuid();
 
         #endregion
 
@@ -20,17 +20,7 @@
         {
             get
             {
-                if (this.id == Guid.Empty)
-                {
-                    this.id = Guid.NewGuid();
-                }
-
                 return this.id;
-            }
-
-            set
-            {
-                this.id = value;
             }
         }
 

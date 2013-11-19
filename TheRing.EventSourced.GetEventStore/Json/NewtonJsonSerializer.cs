@@ -9,7 +9,8 @@
     using EventStore.ClientAPI;
 
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
+
+    using Thering.EventSourced.Eventing;
 
     #endregion
 
@@ -34,13 +35,20 @@
 
         #region Public Methods and Operators
 
-        public object Get(RecordedEvent recordedEvent)
+        public EventWithMetadata Get(RecordedEvent recordedEvent)
         {
-            var eventClrTypeName =
-                JObject.Parse(Encoding.UTF8.GetString(recordedEvent.Metadata)).Property(EventClrTypeHeader).Value;
-            return JsonConvert.DeserializeObject(
-                Encoding.UTF8.GetString(recordedEvent.Data), 
-                Type.GetType((string)eventClrTypeName));
+            var eventHeaders =
+                (Dictionary<string, object>)
+                JsonConvert.DeserializeObject(
+                    Encoding.UTF8.GetString(recordedEvent.Metadata), 
+                    typeof(Dictionary<string, object>));
+
+            return
+                new EventWithMetadata(
+                    JsonConvert.DeserializeObject(
+                        Encoding.UTF8.GetString(recordedEvent.Data), 
+                        Type.GetType((string)eventHeaders[EventClrTypeHeader])), 
+                    eventHeaders);
         }
 
         public EventData Transform(object @event, IDictionary<string, object> headers = null)

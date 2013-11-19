@@ -47,7 +47,7 @@
             IDictionary<string, object> headers = null, 
             int? expectedVersion = null)
         {
-            var expectVesrion = expectedVersion ?? ExpectedVersion.Any;
+            var expectVersion = expectedVersion ?? ExpectedVersion.Any;
 
             var eventsToSave = events.Select(e => this.eventDataTransformer.Transform(e, headers)).ToList();
 
@@ -55,11 +55,11 @@
 
             if (nbEvents < WritePageSize)
             {
-                this.eventStoreConnection.AppendToStream(streamName, expectVesrion, eventsToSave);
+                this.eventStoreConnection.AppendToStream(streamName, expectVersion, eventsToSave);
             }
             else
             {
-                var transaction = this.eventStoreConnection.StartTransaction(streamName, expectVesrion);
+                var transaction = this.eventStoreConnection.StartTransaction(streamName, expectVersion);
 
                 var position = 0;
                 while (position < nbEvents)

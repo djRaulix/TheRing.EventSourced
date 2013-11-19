@@ -4,11 +4,9 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using EventStore.ClientAPI;
-    using EventStore.ClientAPI.SystemData;
-
-    using TheRing.EventSourced.Core;
 
     using Thering.EventSourced.Eventing;
 
@@ -46,21 +44,58 @@
 
         #region Public Methods and Operators
 
-        public IEnumerable<object> Get(string streamName, int fromVersion, int toVersion, bool backward = false)
+        public IEnumerable<object> Get(string streamName, int? fromVersion = null, int? toVersion = null)
         {
-            Func<int,int,StreamEventsSlice> read;
-            Func<int, int, int> getSliceCnt;
-            if (backward)
-            {
-                read = (start, count) => this.eventStoreConnection.ReadStreamEventsBackward(streamName,start,count, false);
-                getSliceCnt = this.getSliceCount;
-            }
-            else
-            {
-                read = (start, count) => this.eventStoreConnection.ReadStreamEventsForward(streamName, start, count, false);
-                getSliceCnt = this.getSliceCount;
-            }
-            
+            return this.GetWithMetadata(streamName, fromVersion, toVersion).Select(e => e.Event);
+        }
+
+        public IEnumerable<object> GetBackward(string streamName, int? fromVersion = null, int? toVersion = null)
+        {
+            return this.GetBackwardWithMetadata(streamName, fromVersion, toVersion).Select(e => e.Event);
+        }
+
+        public IEnumerable<EventWithMetadata> GetBackwardWithMetadata(
+            string streamName, 
+            int? fromVersion = null, 
+            int? toVersion = null)
+        {
+            var from = fromVersion ?? StreamPosition.End;
+            var to = toVersion ?? StreamPosition.Start;
+
+            return this.Get(
+                streamName, 
+                (start, count) => this.eventStoreConnection.ReadStreamEventsBackward(streamName, start, count, false), 
+                this.GetSliceCountBackward, 
+                from, 
+                to);
+        }
+
+        public IEnumerable<EventWithMetadata> GetWithMetadata(
+            string streamName, 
+            int? fromVersion = null, 
+            int? toVersion = null)
+        {
+            var from = fromVersion ?? StreamPosition.Start;
+            var to = toVersion ?? StreamPosition.End;
+            return this.Get(
+                streamName, 
+                (start, count) => this.eventStoreConnection.ReadStreamEventsForward(streamName, start, count, false), 
+                this.GetSliceCount, 
+                from, 
+                to);
+        }
+
+        #endregion
+
+        #region Methods
+
+        private IEnumerable<EventWithMetadata> Get(
+            string streamName, 
+            Func<int, int, StreamEventsSlice> read, 
+            Func<int, int, int> getSliceCnt, 
+            int fromVersion, 
+            int toVersion)
+        {
             var sliceCount = getSliceCnt(fromVersion, toVersion);
             var endOfStream = false;
 
@@ -85,17 +120,18 @@
 
                 endOfStream = currentSlice.IsEndOfStream;
 
-                sliceCount = this.getSliceCount(currentSlice.NextEventNumber, toVersion);
+                sliceCount = this.GetSliceCount(currentSlice.NextEventNumber, toVersion);
             }
         }
 
-        #endregion
-
-        #region Methods
-
-        private int getSliceCount(int fromVersion, int toVersion)
+        private int GetSliceCount(int fromVersion, int toVersion)
         {
             return fromVersion + ReadPageSize <= toVersion ? ReadPageSize : toVersion - fromVersion;
+        }
+
+        private int GetSliceCountBackward(int fromVersion, int toVersion)
+        {
+            return fromVersion - ReadPageSize >= toVersion ? ReadPageSize : fromVersion - toVersion;
         }
 
         #endregion

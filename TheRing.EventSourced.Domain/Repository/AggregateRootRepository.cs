@@ -3,11 +3,16 @@
     #region using
 
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
+    using TheRing.EventSourced.Core;
     using TheRing.EventSourced.Domain.Aggregate;
-    using TheRing.EventSourced.Domain.Repository.Create;
-    using TheRing.EventSourced.Domain.Repository.Get;
-    using TheRing.EventSourced.Domain.Repository.Save;
+    using TheRing.EventSourced.Domain.Exceptions;
+    using TheRing.EventSourced.Domain.Properties;
+    using TheRing.EventSourced.Domain.Repository.Factory;
+
+    using Thering.EventSourced.Eventing;
 
     #endregion
 
@@ -15,21 +20,28 @@
     {
         #region Fields
 
-        private readonly ICreateAggregateRoot creator;
+        private readonly IAggregateRootFactory aggregateRootFactory;
 
-        private readonly IGetAggregateRoot getter;
+        private readonly IGetEventsOnStream eventsGetter;
 
-        private readonly ISaveAggregateRoot saver;
+        private readonly ISAveEventsOnStream eventsSaver;
+
+        private readonly IGetStreamNameFromAggregateRoot streamNameGetter;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public AggregateRootRepository(ICreateAggregateRoot creator, IGetAggregateRoot getter, ISaveAggregateRoot saver)
+        public AggregateRootRepository(
+            IAggregateRootFactory aggregateRootFactory, 
+            IGetEventsOnStream eventsGetter, 
+            ISAveEventsOnStream eventsSaver, 
+            IGetStreamNameFromAggregateRoot streamNameGetter)
         {
-            this.creator = creator;
-            this.getter = getter;
-            this.saver = saver;
+            this.aggregateRootFactory = aggregateRootFactory;
+            this.eventsGetter = eventsGetter;
+            this.eventsSaver = eventsSaver;
+            this.streamNameGetter = streamNameGetter;
         }
 
         #endregion
@@ -38,17 +50,55 @@
 
         public TAgg Create<TAgg>(Guid id) where TAgg : AggregateRoot
         {
-            return this.creator.Create<TAgg>(id);
+            var agg = this.aggregateRootFactory.Create<TAgg>();
+            agg.Id = id;
+            return agg;
         }
 
         public TAgg Get<TAgg>(Guid id) where TAgg : AggregateRoot
         {
-            return this.getter.Get<TAgg>(id);
+            var agg = this.aggregateRootFactory.Create<TAgg>();
+            agg.Id = id;
+            var events = this.eventsGetter.GetBackward(this.streamNameGetter.Get(agg));
+
+            agg.LoadFromHistory(this.GetOrderedEvents(events.GetEnumerator(), agg.RestoreSnapshot));
+
+            if (agg.Version == 0)
+            {
+                throw new UnKnownAggregateRootException(id);
+            }
+
+            return agg;
         }
 
         public void Save<TAgg>(TAgg aggregateRoot) where TAgg : AggregateRoot
         {
-            this.saver.Save(aggregateRoot);
+            if (aggregateRoot.Version - aggregateRoot.SnapshotVersion >= Settings.Default.NbEventsBeforeSnapshot)
+            {
+                aggregateRoot.TakeSnapshot();
+            }
+
+            this.eventsSaver.Save(
+                this.streamNameGetter.Get(aggregateRoot), 
+                aggregateRoot.Changes, 
+                expectedVersion: aggregateRoot.OriginalVersion);
+        }
+
+        #endregion
+
+        #region Methods
+
+        private IEnumerable<object> GetOrderedEvents(IEnumerator<object> enumerator, Func<object, bool> restoreSnapshot)
+        {
+            while (enumerator.MoveNext() && !restoreSnapshot(enumerator.Current))
+            {
+                foreach (var @event in this.GetOrderedEvents(enumerator, restoreSnapshot))
+                {
+                    yield return @event;
+                }
+
+                yield return enumerator.Current;
+            }
         }
 
         #endregion

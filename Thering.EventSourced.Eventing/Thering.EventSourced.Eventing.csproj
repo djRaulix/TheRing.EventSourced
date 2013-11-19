@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventWithMetadata.cs" />
     <Compile Include="IGetEventsOnStream.cs" />
     <Compile Include="ISAveEventsOnStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

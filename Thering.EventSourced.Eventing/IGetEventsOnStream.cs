@@ -10,7 +10,13 @@
     {
         #region Public Methods and Operators
 
-        IEnumerable<object> Get(string streamName, int fromVersion, int toVersion, bool backWard = false);
+        IEnumerable<object> Get(string streamName, int? fromVersion = null, int? toVersion = null);
+
+        IEnumerable<object> GetBackward(string streamName, int? fromVersion = null, int? toVersion = null);
+
+        IEnumerable<EventWithMetadata> GetWithMetadata(string streamName, int? fromVersion = null, int? toVersion = null);
+
+        IEnumerable<EventWithMetadata> GetBackwardWithMetadata(string streamName, int? fromVersion = null, int? toVersion = null);
 
         #endregion
     }

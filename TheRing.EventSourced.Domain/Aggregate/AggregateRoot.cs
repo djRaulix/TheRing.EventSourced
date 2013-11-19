@@ -21,6 +21,10 @@
 
         internal abstract IEnumerable<object> Changes { get; }
 
+        internal abstract int SnapshotVersion { get; }
+
+        internal abstract int OriginalVersion { get; }
+
         #endregion
 
         #region Methods
@@ -28,6 +32,8 @@
         internal abstract void LoadFromHistory(IEnumerable<object> history);
 
         internal abstract void TakeSnapshot();
+
+        internal abstract bool RestoreSnapshot(object snapshot);
 
         #endregion
     }

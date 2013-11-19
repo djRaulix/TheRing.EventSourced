@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheRing.EventSourced.Applic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thering.EventSourced.Eventing", "Thering.EventSourced.Eventing\Thering.EventSourced.Eventing.csproj", "{24FDEA91-C3A2-4D0B-881D-4F68D6A5B2BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheRing.Test", "TheRing.Test\TheRing.Test.csproj", "{C53B5138-1B0A-438A-9439-3A0E6E7AA329}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheRing.EventSourced.GetEventStore.Test", "TheRing.EventSourced.GetEventStore.Test\TheRing.EventSourced.GetEventStore.Test.csproj", "{2F6B360A-0354-45CA-B82D-53938E959A9F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{24FDEA91-C3A2-4D0B-881D-4F68D6A5B2BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24FDEA91-C3A2-4D0B-881D-4F68D6A5B2BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24FDEA91-C3A2-4D0B-881D-4F68D6A5B2BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C53B5138-1B0A-438A-9439-3A0E6E7AA329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C53B5138-1B0A-438A-9439-3A0E6E7AA329}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C53B5138-1B0A-438A-9439-3A0E6E7AA329}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C53B5138-1B0A-438A-9439-3A0E6E7AA329}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F6B360A-0354-45CA-B82D-53938E959A9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F6B360A-0354-45CA-B82D-53938E959A9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F6B360A-0354-45CA-B82D-53938E959A9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F6B360A-0354-45CA-B82D-53938E959A9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
