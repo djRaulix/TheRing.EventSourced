@@ -2,6 +2,8 @@
 {
     #region using
 
+    using System;
+
     using EventStore.ClientAPI;
 
     using Thering.EventSourced.Eventing;
@@ -16,4 +18,6 @@
 
         #endregion
     }
+
+    
 }

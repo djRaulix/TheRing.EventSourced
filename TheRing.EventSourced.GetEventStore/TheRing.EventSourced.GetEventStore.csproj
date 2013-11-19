@@ -33,14 +33,11 @@
     <Reference Include="EventStore.ClientAPI">
       <HintPath>..\packages\EventStore.Client.2.0.2\lib\net40\EventStore.ClientAPI.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Json\NewtonJsonSerializer.cs" />
+    <Compile Include="EventTransformer.cs" />
     <Compile Include="EventsOnStreamGetter.cs" />
     <Compile Include="EventsOnStreamSaver.cs" />
     <Compile Include="ITransformToEventData.cs" />

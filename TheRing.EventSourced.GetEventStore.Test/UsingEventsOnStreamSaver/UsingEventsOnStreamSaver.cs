@@ -2,7 +2,7 @@
 {
     #region using
 
-    using TheRing.EventSourced.GetEventStore.Json;
+    using TheRing.EventSourced.Core;
 
     #endregion
 
@@ -19,7 +19,7 @@
         protected override void EstablishContext()
         {
             base.EstablishContext();
-            this.Saver = new EventsOnStreamSaver(this.Connection, new NewtonJsonSerializer());
+            this.Saver = new EventsOnStreamSaver(this.Connection, new EventTransformer(new NewtonJsonSerializer()));
         }
 
         #endregion

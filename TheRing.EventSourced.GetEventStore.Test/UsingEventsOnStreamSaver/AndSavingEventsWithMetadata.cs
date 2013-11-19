@@ -2,7 +2,6 @@
 {
     #region using
 
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -12,7 +11,7 @@
 
     using NUnit.Framework;
 
-    using TheRing.EventSourced.GetEventStore.Json;
+    using TheRing.EventSourced.Core;
 
     #endregion
 
@@ -34,7 +33,7 @@
         public void ThenMetadataShouldBeSaved()
         {
             var currentSlice = this.Connection.ReadStreamEventsBackward(StreamName, StreamPosition.End, 1, false);
-            var deserializer = new NewtonJsonSerializer();
+            var deserializer = new EventTransformer(new NewtonJsonSerializer());
             var metadata = deserializer.Get(currentSlice.Events.First().OriginalEvent).Metadata;
             metadata[MetadataKey].Should().Be(MetadataValue);
         }
@@ -46,7 +45,10 @@
         protected override void BecauseOf()
         {
             base.BecauseOf();
-            this.Saver.Save(StreamName, new[] { new object() }, new Dictionary<string, object> { { MetadataKey, MetadataValue } });
+            this.Saver.Save(
+                StreamName, 
+                new[] { new object() }, 
+                new Dictionary<string, object> { { MetadataKey, MetadataValue } });
         }
 
         #endregion

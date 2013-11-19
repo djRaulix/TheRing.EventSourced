@@ -57,6 +57,10 @@
     <Compile Include="UsingEventsOnStreamSaver\UsingEventsOnStreamSaver.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TheRing.EventSourced.Core\TheRing.EventSourced.Core.csproj">
+      <Project>{B88AD40E-6724-427F-AD21-D2215DC646BC}</Project>
+      <Name>TheRing.EventSourced.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Thering.EventSourced.Eventing\Thering.EventSourced.Eventing.csproj">
       <Project>{24FDEA91-C3A2-4D0B-881D-4F68D6A5B2BE}</Project>
       <Name>Thering.EventSourced.Eventing</Name>

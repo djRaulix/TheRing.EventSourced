@@ -3,7 +3,6 @@
     #region using
 
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     using EventStore.ClientAPI;
@@ -12,7 +11,7 @@
 
     using NUnit.Framework;
 
-    using TheRing.EventSourced.GetEventStore.Json;
+    using TheRing.EventSourced.Core;
 
     #endregion
 
@@ -38,7 +37,7 @@
         public void ThenEventsShouldBeSaved()
         {
             var currentSlice = this.Connection.ReadStreamEventsBackward(StreamName, StreamPosition.End, 2, false);
-            var deserializer = new NewtonJsonSerializer();
+            var deserializer = new EventTransformer(new NewtonJsonSerializer());
             deserializer.Get(currentSlice.Events.First().OriginalEvent).Event.As<Event>().No.Should().Be(this.event2.No);
             deserializer.Get(currentSlice.Events.Last().OriginalEvent).Event.As<Event>().No.Should().Be(this.event1.No);
         }
@@ -63,10 +62,14 @@
 
             #endregion
 
+            #region Constructors and Destructors
+
             public Event(Guid no)
             {
                 this.No = no;
             }
+
+            #endregion
         }
     }
 }
