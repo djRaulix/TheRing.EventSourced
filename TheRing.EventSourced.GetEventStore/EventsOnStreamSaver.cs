@@ -21,20 +21,18 @@
 
         #region Fields
 
-        private readonly ITransformToEventData eventDataTransformer;
-
         private readonly IEventStoreConnection eventStoreConnection;
+
+        private readonly ISerializeEvent serializer;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public EventsOnStreamSaver(
-            IEventStoreConnection eventStoreConnection, 
-            ITransformToEventData eventDataTransformer)
+        public EventsOnStreamSaver(IEventStoreConnection eventStoreConnection, ISerializeEvent serializer)
         {
             this.eventStoreConnection = eventStoreConnection;
-            this.eventDataTransformer = eventDataTransformer;
+            this.serializer = serializer;
         }
 
         #endregion
@@ -49,7 +47,7 @@
         {
             var expectVersion = expectedVersion ?? ExpectedVersion.Any;
 
-            var eventsToSave = events.Select(e => this.eventDataTransformer.Transform(e, headers)).ToList();
+            var eventsToSave = events.Select(e => this.serializer.Serialize(e, headers)).ToList();
 
             var nbEvents = eventsToSave.Count();
 

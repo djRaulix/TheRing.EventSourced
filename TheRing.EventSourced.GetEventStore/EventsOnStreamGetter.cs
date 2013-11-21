@@ -26,7 +26,7 @@
 
         private readonly IEventStoreConnection eventStoreConnection;
 
-        private readonly IGetEventFromRecorded fromRecordedEventGetter;
+        private readonly ISerializeEvent serializer;
 
         #endregion
 
@@ -34,10 +34,10 @@
 
         public EventsOnStreamGetter(
             IEventStoreConnection eventStoreConnection, 
-            IGetEventFromRecorded fromRecordedEventGetter)
+            ISerializeEvent serializer)
         {
             this.eventStoreConnection = eventStoreConnection;
-            this.fromRecordedEventGetter = fromRecordedEventGetter;
+            this.serializer = serializer;
         }
 
         #endregion
@@ -115,7 +115,7 @@
 
                 foreach (var evnt in currentSlice.Events)
                 {
-                    yield return this.fromRecordedEventGetter.Get(evnt.OriginalEvent);
+                    yield return this.serializer.Deserialize(evnt.OriginalEvent);
                 }
 
                 endOfStream = currentSlice.IsEndOfStream;

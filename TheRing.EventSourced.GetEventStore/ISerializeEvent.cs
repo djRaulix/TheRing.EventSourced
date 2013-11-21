@@ -2,7 +2,7 @@
 {
     #region using
 
-    using System;
+    using System.Collections.Generic;
 
     using EventStore.ClientAPI;
 
@@ -10,14 +10,14 @@
 
     #endregion
 
-    public interface IGetEventFromRecorded
+    public interface ISerializeEvent
     {
         #region Public Methods and Operators
 
-        EventWithMetadata Get(RecordedEvent recordedEvent);
+        EventWithMetadata Deserialize(RecordedEvent recordedEvent);
+
+        EventData Serialize(object @event, IDictionary<string, object> headers);
 
         #endregion
     }
-
-    
 }

@@ -12,6 +12,8 @@
 
         protected EventsOnStreamSaver Saver { get; set; }
 
+        protected ISerializeEvent EventSerializer { get; set; }
+
         #endregion
 
         #region Methods
@@ -19,7 +21,10 @@
         protected override void EstablishContext()
         {
             base.EstablishContext();
-            this.Saver = new EventsOnStreamSaver(this.Connection, new EventTransformer(new NewtonJsonSerializer()));
+            this.EventSerializer = new EventSerializer(
+                new NewtonJsonSerializer(), 
+                new TypeAliaser(new ShortNameDefaultTypeAliasingStrategy()));
+            this.Saver = new EventsOnStreamSaver(this.Connection, this.EventSerializer);
         }
 
         #endregion

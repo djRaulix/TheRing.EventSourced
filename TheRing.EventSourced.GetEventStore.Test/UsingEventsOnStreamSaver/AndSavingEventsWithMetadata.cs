@@ -33,8 +33,7 @@
         public void ThenMetadataShouldBeSaved()
         {
             var currentSlice = this.Connection.ReadStreamEventsBackward(StreamName, StreamPosition.End, 1, false);
-            var deserializer = new EventTransformer(new NewtonJsonSerializer());
-            var metadata = deserializer.Get(currentSlice.Events.First().OriginalEvent).Metadata;
+            var metadata = EventSerializer.Deserialize(currentSlice.Events.First().OriginalEvent).Metadata;
             metadata[MetadataKey].Should().Be(MetadataValue);
         }
 
