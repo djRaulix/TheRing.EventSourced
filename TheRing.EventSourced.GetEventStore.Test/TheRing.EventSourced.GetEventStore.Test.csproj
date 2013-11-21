@@ -50,6 +50,13 @@
   <ItemGroup>
     <Compile Include="Specification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UsingEventsOnStreamGetter\AndGettingAll600EventsBackward.cs" />
+    <Compile Include="UsingEventsOnStreamGetter\AndGettingAll600Events.cs" />
+    <Compile Include="UsingEventsOnStreamGetter\AndGettingAllEventsBackward.cs" />
+    <Compile Include="UsingEventsOnStreamGetter\AndGettingSelectedEventsBackward.cs" />
+    <Compile Include="UsingEventsOnStreamGetter\AndGettingSelectedEvents.cs" />
+    <Compile Include="UsingEventsOnStreamGetter\AndGettingAllEvents.cs" />
+    <Compile Include="UsingEventsOnStreamGetter\UsingEventsOnStreamGetter.cs" />
     <Compile Include="UsingEventsOnStreamSaver\AndSavingEventsWithMetadata.cs" />
     <Compile Include="UsingEventsOnStreamSaver\AndSavingEventsWithAnUnvalidExpectedVersion.cs" />
     <Compile Include="UsingEventsOnStreamSaver\AndSavingEventsWithAValidExpectedVersion.cs" />
@@ -77,9 +84,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UsingEventsOnStreamGetter\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

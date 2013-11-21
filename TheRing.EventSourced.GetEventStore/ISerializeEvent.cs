@@ -16,7 +16,7 @@
 
         EventWithMetadata Deserialize(RecordedEvent recordedEvent);
 
-        EventData Serialize(object @event, IDictionary<string, object> headers);
+        EventData Serialize(object @event, IDictionary<string, object> headers = null);
 
         #endregion
     }

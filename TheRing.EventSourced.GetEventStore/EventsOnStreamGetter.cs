@@ -32,9 +32,7 @@
 
         #region Constructors and Destructors
 
-        public EventsOnStreamGetter(
-            IEventStoreConnection eventStoreConnection, 
-            ISerializeEvent serializer)
+        public EventsOnStreamGetter(IEventStoreConnection eventStoreConnection, ISerializeEvent serializer)
         {
             this.eventStoreConnection = eventStoreConnection;
             this.serializer = serializer;
@@ -119,19 +117,30 @@
                 }
 
                 endOfStream = currentSlice.IsEndOfStream;
+                fromVersion = currentSlice.NextEventNumber;
 
-                sliceCount = this.GetSliceCount(currentSlice.NextEventNumber, toVersion);
+                sliceCount = getSliceCnt(fromVersion, toVersion);
             }
         }
 
         private int GetSliceCount(int fromVersion, int toVersion)
         {
-            return fromVersion + ReadPageSize <= toVersion ? ReadPageSize : toVersion - fromVersion;
+            if (toVersion == StreamPosition.End)
+            {
+                return ReadPageSize;
+            }
+
+            return fromVersion + ReadPageSize <= toVersion ? ReadPageSize : toVersion - fromVersion + 1;
         }
 
         private int GetSliceCountBackward(int fromVersion, int toVersion)
         {
-            return fromVersion - ReadPageSize >= toVersion ? ReadPageSize : fromVersion - toVersion;
+            if (fromVersion == StreamPosition.End)
+            {
+                return ReadPageSize;
+            }
+
+            return fromVersion - ReadPageSize >= toVersion ? ReadPageSize : fromVersion - toVersion + 1;
         }
 
         #endregion
