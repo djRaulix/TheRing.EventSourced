@@ -13,27 +13,21 @@
 
         private readonly ConcurrentDictionary<Type, string> aliases = new ConcurrentDictionary<Type, string>();
 
-        private readonly IDefaultTypeAliasingStrategy defaultTypeAliasingStrategy;
-
         private readonly ConcurrentDictionary<string, Type> types = new ConcurrentDictionary<string, Type>();
 
         #endregion
 
         #region Constructors and Destructors
 
-        public TypeAliaser(IDefaultTypeAliasingStrategy defaultTypeAliasingStrategy)
-        {
-            this.defaultTypeAliasingStrategy = defaultTypeAliasingStrategy;
-        }
-
         #endregion
 
         #region Public Methods and Operators
 
-        public void AddAlias(string alias, Type type)
+        public ITypeAliaser AddAlias(string alias, Type type)
         {
             this.types[alias] = type;
             this.aliases[type] = alias;
+            return this;
         }
 
         public string GetAlias(object @object)
@@ -47,7 +41,7 @@
 
             if (!this.aliases.TryGetValue(type, out alias))
             {
-                alias = this.defaultTypeAliasingStrategy.GetAlias(type);
+                alias = type.AssemblyQualifiedName;
                 this.AddAlias(alias, type);
             }
 
@@ -56,7 +50,13 @@
 
         public Type GetType(string alias)
         {
-            return this.types[alias];
+            Type type;
+            if (!this.types.TryGetValue(alias, out type))
+            {
+                type = Type.GetType(alias);
+            }
+
+            return type;
         }
 
         #endregion

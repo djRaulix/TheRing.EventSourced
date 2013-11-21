@@ -11,8 +11,6 @@
 
     using NUnit.Framework;
 
-    using TheRing.EventSourced.Core;
-
     #endregion
 
     public class AndSavingEvents : UsingEventsOnStreamSaver
@@ -37,8 +35,14 @@
         public void ThenEventsShouldBeSaved()
         {
             var currentSlice = this.Connection.ReadStreamEventsBackward(StreamName, StreamPosition.End, 2, false);
-            EventSerializer.Deserialize(currentSlice.Events.First().OriginalEvent).Event.As<Event>().No.Should().Be(this.event2.No);
-            EventSerializer.Deserialize(currentSlice.Events.Last().OriginalEvent).Event.As<Event>().No.Should().Be(this.event1.No);
+            this.EventSerializer.Deserialize(currentSlice.Events.First().OriginalEvent)
+                .Event.As<Event>()
+                .No.Should()
+                .Be(this.event2.No);
+            this.EventSerializer.Deserialize(currentSlice.Events.Last().OriginalEvent)
+                .Event.As<Event>()
+                .No.Should()
+                .Be(this.event1.No);
         }
 
         #endregion
@@ -52,23 +56,5 @@
         }
 
         #endregion
-
-        private class Event
-        {
-            #region Fields
-
-            public readonly Guid No;
-
-            #endregion
-
-            #region Constructors and Destructors
-
-            public Event(Guid no)
-            {
-                this.No = no;
-            }
-
-            #endregion
-        }
     }
 }

@@ -20,9 +20,8 @@
         protected override void EstablishContext()
         {
             base.EstablishContext();
-            this.EventSerializer = new EventSerializer(
-                new NewtonJsonSerializer(), 
-                new TypeAliaser(new ShortNameDefaultTypeAliasingStrategy()));
+
+            this.EventSerializer = new EventSerializer(new NewtonJsonSerializer(), this.Aliaser);
             this.Getter = new EventsOnStreamGetter(this.Connection, this.EventSerializer);
         }
 

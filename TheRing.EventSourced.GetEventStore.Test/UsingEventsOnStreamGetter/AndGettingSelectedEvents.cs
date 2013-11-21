@@ -49,7 +49,7 @@
         protected override void BecauseOf()
         {
             base.BecauseOf();
-            this.result = this.Getter.Get(this.StreamName,1,2);
+            this.result = this.Getter.Get(this.StreamName, 1, 2);
         }
 
         protected override void EstablishContext()
@@ -57,8 +57,8 @@
             base.EstablishContext();
 
             this.Connection.AppendToStream(
-                this.StreamName,
-                ExpectedVersion.EmptyStream,
+                this.StreamName, 
+                ExpectedVersion.EmptyStream, 
                 new[]
                     {
                         this.EventSerializer.Serialize(this.event0), this.EventSerializer.Serialize(this.event1), 
@@ -67,23 +67,5 @@
         }
 
         #endregion
-
-        private class Event
-        {
-            #region Fields
-
-            public readonly Guid No;
-
-            #endregion
-
-            #region Constructors and Destructors
-
-            public Event(Guid no)
-            {
-                this.No = no;
-            }
-
-            #endregion
-        }
     }
 }

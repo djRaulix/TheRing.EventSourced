@@ -67,23 +67,5 @@
         }
 
         #endregion
-
-        private class Event
-        {
-            #region Fields
-
-            public readonly Guid No;
-
-            #endregion
-
-            #region Constructors and Destructors
-
-            public Event(Guid no)
-            {
-                this.No = no;
-            }
-
-            #endregion
-        }
     }
 }

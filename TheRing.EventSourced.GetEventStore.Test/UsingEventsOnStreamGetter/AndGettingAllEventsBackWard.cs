@@ -4,6 +4,7 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Data.Common;
     using System.Linq;
 
     using EventStore.ClientAPI;
@@ -45,7 +46,7 @@
         protected override void BecauseOf()
         {
             base.BecauseOf();
-            result = this.Getter.GetBackward(this.StreamName);
+            this.result = this.Getter.GetBackward(this.StreamName);
         }
 
         protected override void EstablishContext()
@@ -59,23 +60,5 @@
         }
 
         #endregion
-
-        private class Event
-        {
-            #region Fields
-
-            public readonly Guid No;
-
-            #endregion
-
-            #region Constructors and Destructors
-
-            public Event(Guid no)
-            {
-                this.No = no;
-            }
-
-            #endregion
-        }
     }
 }

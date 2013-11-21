@@ -18,7 +18,7 @@
     {
         #region Fields
 
-        private readonly string StreamName = "GetEventSoreTests-AndGettingAll600EventsBackward-" + Guid.NewGuid();
+        private readonly string StreamName = "GetEventSoreTests-AndGettingAll600EventsBackward";
 
         private IEnumerable<object> result;
 
@@ -45,14 +45,6 @@
         protected override void EstablishContext()
         {
             base.EstablishContext();
-
-            var events = new List<EventData>();
-            for (var i = 0; i < 600; i++)
-            {
-                events.Add(this.EventSerializer.Serialize(new object()));
-            }
-
-            this.Connection.AppendToStream(this.StreamName, ExpectedVersion.EmptyStream, events);
         }
 
         #endregion

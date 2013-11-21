@@ -42,8 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FullNameDefaultTypeAliasingStrategy.cs" />
-    <Compile Include="IDefaultTypeAliasingStrategy.cs" />
     <Compile Include="ITypeAliaser.cs" />
     <Compile Include="ISerialize.cs" />
     <Compile Include="NewtonJsonSerializer.cs" />
@@ -51,7 +49,6 @@
     <Compile Include="Reflection\Activator\Activator`2.cs" />
     <Compile Include="Reflection\Activator\Activator`1.cs" />
     <Compile Include="Reflection\Activator\TypeExtensions.cs" />
-    <Compile Include="ShortNameDefaultTypeAliasingStrategy.cs" />
     <Compile Include="TypeAliaser.cs" />
   </ItemGroup>
   <ItemGroup>

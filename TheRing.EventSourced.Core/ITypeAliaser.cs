@@ -16,7 +16,7 @@
 
         string GetAlias(object @object);
 
-        void AddAlias(string alias, Type type);
+        ITypeAliaser AddAlias(string alias, Type type);
 
         #endregion
     }
