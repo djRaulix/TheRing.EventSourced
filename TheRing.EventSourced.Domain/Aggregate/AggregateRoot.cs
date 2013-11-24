@@ -31,9 +31,9 @@
 
         internal abstract void LoadFromHistory(IEnumerable<object> history);
 
-        internal abstract void TakeSnapshot();
+        internal abstract object TakeSnapshot();
 
-        internal abstract bool RestoreSnapshot(object snapshot);
+        internal abstract void RestoreSnapshot(object snapshot);
 
         #endregion
     }

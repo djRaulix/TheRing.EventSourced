@@ -1,4 +1,4 @@
-﻿namespace TheRing.EventSourced.GetEventStore.Test.UsingEventsOnStreamSaver
+﻿namespace TheRing.EventSourced.GetEventStore.Test.UsingEventStoreEventStreamRepository
 {
     #region using
 
@@ -13,19 +13,19 @@
 
     #endregion
 
-    public class AndSavingEvents : UsingEventsOnStreamSaver
+    public class AndSavingEvents : UsingEventStoreEventStreamRepository
     {
         #region Constants
 
-        private const string StreamName = "GetEventSoreTests-AndSavingEvents";
+        private const string StreamName = "AndSavingEvents";
 
         #endregion
 
         #region Fields
 
-        private readonly Event event1 = new Event(Guid.NewGuid());
+        private readonly FakeEvent event1 = new FakeEvent(Guid.NewGuid());
 
-        private readonly Event event2 = new Event(Guid.NewGuid());
+        private readonly FakeEvent event2 = new FakeEvent(Guid.NewGuid());
 
         #endregion
 
@@ -36,11 +36,11 @@
         {
             var currentSlice = this.Connection.ReadStreamEventsBackward(StreamName, StreamPosition.End, 2, false);
             this.EventSerializer.Deserialize(currentSlice.Events.First().OriginalEvent)
-                .Event.As<Event>()
+                .Event.As<FakeEvent>()
                 .No.Should()
                 .Be(this.event2.No);
             this.EventSerializer.Deserialize(currentSlice.Events.Last().OriginalEvent)
-                .Event.As<Event>()
+                .Event.As<FakeEvent>()
                 .No.Should()
                 .Be(this.event1.No);
         }
@@ -52,7 +52,7 @@
         protected override void BecauseOf()
         {
             base.BecauseOf();
-            this.Saver.Save(StreamName, new[] { this.event1, this.event2 });
+            this.EventStoreEventStreamRepository.Save(StreamName, new[] { this.event1, this.event2 });
         }
 
         #endregion

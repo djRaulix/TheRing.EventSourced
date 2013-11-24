@@ -33,14 +33,14 @@
         {
             base.EstablishContext();
             this.Aliaser = new TypeAliaser().AddAlias(typeof(object).Name, typeof(object))
-                .AddAlias(typeof(Event).Name, typeof(Event));
+                .AddAlias(typeof(FakeEvent).Name, typeof(FakeEvent));
             this.Connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
             this.Connection.Connect();
         }
 
         #endregion
 
-        protected class Event
+        protected class FakeEvent
         {
             #region Fields
 
@@ -50,7 +50,7 @@
 
             #region Constructors and Destructors
 
-            public Event(Guid no)
+            public FakeEvent(Guid no)
             {
                 this.No = no;
             }

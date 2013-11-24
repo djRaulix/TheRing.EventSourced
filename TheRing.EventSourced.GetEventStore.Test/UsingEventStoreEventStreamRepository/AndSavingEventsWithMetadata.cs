@@ -1,4 +1,4 @@
-﻿namespace TheRing.EventSourced.GetEventStore.Test.UsingEventsOnStreamSaver
+﻿namespace TheRing.EventSourced.GetEventStore.Test.UsingEventStoreEventStreamRepository
 {
     #region using
 
@@ -11,11 +11,9 @@
 
     using NUnit.Framework;
 
-    using TheRing.EventSourced.Core;
-
     #endregion
 
-    public class AndSavingEventsWithMetadata : UsingEventsOnStreamSaver
+    public class AndSavingEventsWithMetadata : UsingEventStoreEventStreamRepository
     {
         #region Constants
 
@@ -23,7 +21,7 @@
 
         private const string MetadataValue = "value";
 
-        private const string StreamName = "GetEventSoreTests-AndSavingEventsWithMetadata";
+        private const string StreamName = "AndSavingEventsWithMetadata";
 
         #endregion
 
@@ -33,7 +31,7 @@
         public void ThenMetadataShouldBeSaved()
         {
             var currentSlice = this.Connection.ReadStreamEventsBackward(StreamName, StreamPosition.End, 1, false);
-            var metadata = EventSerializer.Deserialize(currentSlice.Events.First().OriginalEvent).Metadata;
+            var metadata = this.EventSerializer.Deserialize(currentSlice.Events.First().OriginalEvent).Metadata;
             metadata[MetadataKey].Should().Be(MetadataValue);
         }
 
@@ -44,7 +42,7 @@
         protected override void BecauseOf()
         {
             base.BecauseOf();
-            this.Saver.Save(
+            this.EventStoreEventStreamRepository.Save(
                 StreamName, 
                 new[] { new object() }, 
                 new Dictionary<string, object> { { MetadataKey, MetadataValue } });

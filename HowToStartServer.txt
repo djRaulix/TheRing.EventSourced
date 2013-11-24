@@ -1,0 +1,1 @@
+EventStore.SingleNode.exe --db .\ESData --run-projections=all

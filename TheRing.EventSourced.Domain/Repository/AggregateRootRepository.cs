@@ -3,14 +3,14 @@
     #region using
 
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
-    using TheRing.EventSourced.Core;
+    using TheRing.EventSourced.Core.Log;
     using TheRing.EventSourced.Domain.Aggregate;
     using TheRing.EventSourced.Domain.Exceptions;
     using TheRing.EventSourced.Domain.Properties;
     using TheRing.EventSourced.Domain.Repository.Factory;
+    using TheRing.EventSourced.Domain.Repository.Snapshot;
 
     using Thering.EventSourced.Eventing;
 
@@ -22,11 +22,15 @@
 
         private readonly IAggregateRootFactory aggregateRootFactory;
 
-        private readonly IGetEventsOnStream eventsGetter;
+        private readonly IEventStreamRepository eventRepository;
 
-        private readonly ISAveEventsOnStream eventsSaver;
+        private readonly ILogger log = LogManager.GetLoggerFor<AggregateRootRepository>();
 
         private readonly IGetStreamNameFromAggregateRoot streamNameGetter;
+
+        private readonly IGetSnapshotKeyFromAggregateRoot snapshotKeyGetter;
+
+        private readonly ISnapshoter snapshoter;
 
         #endregion
 
@@ -34,14 +38,16 @@
 
         public AggregateRootRepository(
             IAggregateRootFactory aggregateRootFactory, 
-            IGetEventsOnStream eventsGetter, 
-            ISAveEventsOnStream eventsSaver, 
-            IGetStreamNameFromAggregateRoot streamNameGetter)
+            IEventStreamRepository eventRepository, 
+            IGetStreamNameFromAggregateRoot streamNameGetter,
+            IGetSnapshotKeyFromAggregateRoot snapshotKeyGetter,
+            ISnapshoter snapshoter)
         {
             this.aggregateRootFactory = aggregateRootFactory;
-            this.eventsGetter = eventsGetter;
-            this.eventsSaver = eventsSaver;
+            this.eventRepository = eventRepository;
             this.streamNameGetter = streamNameGetter;
+            this.snapshotKeyGetter = snapshotKeyGetter;
+            this.snapshoter = snapshoter;
         }
 
         #endregion
@@ -59,9 +65,26 @@
         {
             var agg = this.aggregateRootFactory.Create<TAgg>();
             agg.Id = id;
-            var events = this.eventsGetter.GetBackward(this.streamNameGetter.Get(agg));
 
-            agg.LoadFromHistory(this.GetOrderedEvents(events.GetEnumerator(), agg.RestoreSnapshot));
+            try
+            {
+                var snapshot =
+                    this.snapshoter.Get(this.snapshotKeyGetter.GetKey(agg));
+                if (snapshot != null)
+                {
+                    agg.RestoreSnapshot(snapshot);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.log.ErrorException(
+                    ex, 
+                    "Unable to restore snapshot {0} agg with {1} id", 
+                    agg.GetType().Name, 
+                    agg.Id);
+            }
+
+            agg.LoadFromHistory(this.eventRepository.Get(this.streamNameGetter.GetStreamName(agg), agg.Version));
 
             if (agg.Version == 0)
             {
@@ -71,33 +94,23 @@
             return agg;
         }
 
-        public void Save<TAgg>(TAgg aggregateRoot) where TAgg : AggregateRoot
+        public void Save<TAgg>(TAgg agg) where TAgg : AggregateRoot
         {
-            if (aggregateRoot.Version - aggregateRoot.SnapshotVersion >= Settings.Default.NbEventsBeforeSnapshot)
+            this.eventRepository.Save(
+                this.streamNameGetter.GetStreamName(agg), 
+                agg.Changes, 
+                expectedVersion: agg.OriginalVersion - 1);
+
+            try
             {
-                aggregateRoot.TakeSnapshot();
-            }
-
-            this.eventsSaver.Save(
-                this.streamNameGetter.Get(aggregateRoot), 
-                aggregateRoot.Changes, 
-                expectedVersion: aggregateRoot.OriginalVersion);
-        }
-
-        #endregion
-
-        #region Methods
-
-        private IEnumerable<object> GetOrderedEvents(IEnumerator<object> enumerator, Func<object, bool> restoreSnapshot)
-        {
-            while (enumerator.MoveNext() && !restoreSnapshot(enumerator.Current))
-            {
-                foreach (var @event in this.GetOrderedEvents(enumerator, restoreSnapshot))
+                if (agg.Version - agg.SnapshotVersion >= Settings.Default.NbEventsBeforeSnapshot)
                 {
-                    yield return @event;
+                    this.snapshoter.Set(this.snapshotKeyGetter.GetKey(agg), agg.TakeSnapshot());
                 }
-
-                yield return enumerator.Current;
+            }
+            catch (Exception ex)
+            {
+                this.log.ErrorException(ex, "Unable to snapshot {0} agg with {1} id", agg.GetType().Name, agg.Id);
             }
         }
 

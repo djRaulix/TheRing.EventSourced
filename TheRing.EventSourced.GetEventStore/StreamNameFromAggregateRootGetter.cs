@@ -1,13 +1,21 @@
 ﻿namespace TheRing.EventSourced.GetEventStore
 {
+    #region using
+
     using TheRing.EventSourced.Domain.Aggregate;
     using TheRing.EventSourced.Domain.Repository;
 
+    #endregion
+
     public class StreamNameFromAggregateRootGetter : IGetStreamNameFromAggregateRoot
     {
-        public string Get(AggregateRoot aggregateRoot)
+        #region Public Methods and Operators
+
+        public string GetStreamName(AggregateRoot aggregateRoot)
         {
-            return string.Concat(aggregateRoot.GetType().Name, "_", aggregateRoot.Id);
+            return string.Concat(aggregateRoot.GetType().Name, "-", aggregateRoot.Id.ToString().Replace("-", "_"));
         }
+
+        #endregion
     }
 }

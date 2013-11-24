@@ -1,4 +1,4 @@
-﻿namespace TheRing.EventSourced.GetEventStore.Test.UsingEventsOnStreamGetter
+﻿namespace TheRing.EventSourced.GetEventStore.Test.UsingEventStoreEventStreamRepository
 {
     #region using
 
@@ -14,11 +14,12 @@
 
     #endregion
 
-    public class AndGettingAll600Events : UsingEventsOnStreamGetter
+    public class AndGettingAll600EventsBackward : UsingEventStoreEventStreamRepository
     {
         #region Fields
 
-        private readonly string StreamName = "GetEventSoreTests-AndGettingAll600Events-" + Guid.NewGuid();
+        private readonly string StreamName = "AndGettingAll600EventsBackward-"
+                                             + Guid.NewGuid().ToString().Replace("-", string.Empty);
 
         private IEnumerable<object> result;
 
@@ -39,7 +40,7 @@
         protected override void BecauseOf()
         {
             base.BecauseOf();
-            this.result = this.Getter.Get(this.StreamName);
+            this.result = this.EventStoreEventStreamRepository.GetBackward(this.StreamName);
         }
 
         protected override void EstablishContext()

@@ -50,18 +50,17 @@
   <ItemGroup>
     <Compile Include="Specification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UsingEventsOnStreamGetter\AndGettingAll600EventsBackward.cs" />
-    <Compile Include="UsingEventsOnStreamGetter\AndGettingAll600Events.cs" />
-    <Compile Include="UsingEventsOnStreamGetter\AndGettingAllEventsBackward.cs" />
-    <Compile Include="UsingEventsOnStreamGetter\AndGettingSelectedEventsBackward.cs" />
-    <Compile Include="UsingEventsOnStreamGetter\AndGettingSelectedEvents.cs" />
-    <Compile Include="UsingEventsOnStreamGetter\AndGettingAllEvents.cs" />
-    <Compile Include="UsingEventsOnStreamGetter\UsingEventsOnStreamGetter.cs" />
-    <Compile Include="UsingEventsOnStreamSaver\AndSavingEventsWithMetadata.cs" />
-    <Compile Include="UsingEventsOnStreamSaver\AndSavingEventsWithAnUnvalidExpectedVersion.cs" />
-    <Compile Include="UsingEventsOnStreamSaver\AndSavingEventsWithAValidExpectedVersion.cs" />
-    <Compile Include="UsingEventsOnStreamSaver\AndSavingEvents.cs" />
-    <Compile Include="UsingEventsOnStreamSaver\UsingEventsOnStreamSaver.cs" />
+    <Compile Include="UsingEventStoreEventStreamRepository\AndGettingAll600EventsBackward.cs" />
+    <Compile Include="UsingEventStoreEventStreamRepository\AndGettingAll600Events.cs" />
+    <Compile Include="UsingEventStoreEventStreamRepository\AndGettingAllEventsBackward.cs" />
+    <Compile Include="UsingEventStoreEventStreamRepository\AndGettingSelectedEventsBackward.cs" />
+    <Compile Include="UsingEventStoreEventStreamRepository\AndGettingSelectedEvents.cs" />
+    <Compile Include="UsingEventStoreEventStreamRepository\AndGettingAllEvents.cs" />
+    <Compile Include="UsingEventStoreEventStreamRepository\UsingEventsOnStreamGetter.cs" />
+    <Compile Include="UsingEventStoreEventStreamRepository\AndSavingEventsWithMetadata.cs" />
+    <Compile Include="UsingEventStoreEventStreamRepository\AndSavingEventsWithAnUnvalidExpectedVersion.cs" />
+    <Compile Include="UsingEventStoreEventStreamRepository\AndSavingEventsWithAValidExpectedVersion.cs" />
+    <Compile Include="UsingEventStoreEventStreamRepository\AndSavingEvents.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TheRing.EventSourced.Core\TheRing.EventSourced.Core.csproj">
@@ -84,7 +83,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UsingAggregateRootRepository\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,4 +1,4 @@
-﻿namespace TheRing.EventSourced.GetEventStore.Test.UsingEventsOnStreamGetter
+﻿namespace TheRing.EventSourced.GetEventStore.Test.UsingEventStoreEventStreamRepository
 {
     #region using
 
@@ -14,19 +14,20 @@
 
     #endregion
 
-    public class AndGettingSelectedEvents : UsingEventsOnStreamGetter
+    public class AndGettingSelectedEventsBackward : UsingEventStoreEventStreamRepository
     {
         #region Fields
 
-        private readonly string StreamName = "GetEventSoreTests-AndGettingSelectedEvents-" + Guid.NewGuid();
+        private readonly string StreamName = "AndGettingSelectedEventsBackward-"
+                                             + Guid.NewGuid().ToString().Replace("-", string.Empty);
 
-        private readonly Event event0 = new Event(Guid.NewGuid());
+        private readonly FakeEvent event0 = new FakeEvent(Guid.NewGuid());
 
-        private readonly Event event1 = new Event(Guid.NewGuid());
+        private readonly FakeEvent event1 = new FakeEvent(Guid.NewGuid());
 
-        private readonly Event event2 = new Event(Guid.NewGuid());
+        private readonly FakeEvent event2 = new FakeEvent(Guid.NewGuid());
 
-        private readonly Event event3 = new Event(Guid.NewGuid());
+        private readonly FakeEvent event3 = new FakeEvent(Guid.NewGuid());
 
         private IEnumerable<object> result;
 
@@ -38,8 +39,8 @@
         public void ThenSelectedEventsShouldBeReturned()
         {
             this.result.Count().Should().Be(2);
-            this.result.First().As<Event>().No.Should().Be(this.event1.No);
-            this.result.Last().As<Event>().No.Should().Be(this.event2.No);
+            this.result.Last().As<FakeEvent>().No.Should().Be(this.event1.No);
+            this.result.First().As<FakeEvent>().No.Should().Be(this.event2.No);
         }
 
         #endregion
@@ -49,7 +50,7 @@
         protected override void BecauseOf()
         {
             base.BecauseOf();
-            this.result = this.Getter.Get(this.StreamName, 1, 2);
+            this.result = this.EventStoreEventStreamRepository.GetBackward(this.StreamName, 2, 2);
         }
 
         protected override void EstablishContext()

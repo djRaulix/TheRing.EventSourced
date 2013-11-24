@@ -16,7 +16,7 @@
 
         TAgg Get<TAgg>(Guid id) where TAgg : AggregateRoot;
 
-        void Save<TAgg>(TAgg aggregateRoot) where TAgg : AggregateRoot;
+        void Save<TAgg>(TAgg agg) where TAgg : AggregateRoot;
 
         #endregion
     }

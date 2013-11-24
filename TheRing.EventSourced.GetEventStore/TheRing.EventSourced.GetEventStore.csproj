@@ -38,8 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventSerializer.cs" />
-    <Compile Include="EventsOnStreamGetter.cs" />
-    <Compile Include="EventsOnStreamSaver.cs" />
+    <Compile Include="EventStoreEventStreamRepository.cs" />
+    <Compile Include="Exceptions\StreamVersionException.cs" />
     <Compile Include="ISerializeEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exceptions\StreamDeletedException.cs" />

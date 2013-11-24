@@ -21,10 +21,6 @@
 
         #endregion
 
-        protected AggregateRoot()
-        {
-            this.state.Version = this.snapshotVersion = this.originalVersion = -1;
-        }
 
         #region Public Properties
 
@@ -86,32 +82,21 @@
             this.originalVersion = this.state.Version;
         }
 
-        internal override sealed bool RestoreSnapshot(dynamic snapshot)
+        internal override sealed void RestoreSnapshot(object snapshot)
         {
-            return this.TryRestoreSnapshot(snapshot);
+            this.state = (TState)snapshot;
+            this.originalVersion = this.snapshotVersion = this.state.Version;
         }
 
-        internal override sealed void TakeSnapshot()
+        internal override sealed object TakeSnapshot()
         {
-            this.Apply(this.state);
+            return this.state;
         }
 
         protected void Apply(object @event)
         {
             this.When(@event);
             this.changes.Enqueue(@event);
-        }
-
-        private bool TryRestoreSnapshot(TState snapshot)
-        {
-            this.state = snapshot;
-            this.originalVersion = this.snapshotVersion = ++this.state.Version;
-            return true;
-        }
-
-        private bool TryRestoreSnapshot(object @event)
-        {
-            return false;
         }
 
         private void When(dynamic @event)

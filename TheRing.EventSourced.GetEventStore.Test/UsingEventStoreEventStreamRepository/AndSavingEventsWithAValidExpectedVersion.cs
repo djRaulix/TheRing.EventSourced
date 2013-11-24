@@ -1,4 +1,4 @@
-﻿namespace TheRing.EventSourced.GetEventStore.Test.UsingEventsOnStreamSaver
+﻿namespace TheRing.EventSourced.GetEventStore.Test.UsingEventStoreEventStreamRepository
 {
     #region using
 
@@ -12,11 +12,11 @@
 
     #endregion
 
-    public class AndSavingEventsWithAValidExpectedVersion : UsingEventsOnStreamSaver
+    public class AndSavingEventsWithAValidExpectedVersion : UsingEventStoreEventStreamRepository
     {
         #region Constants
 
-        private const string StreamName = "GetEventSoreTests-AndSavingEventsWithAValidExpectedVersion";
+        private const string StreamName = "AndSavingEventsWithAValidExpectedVersion";
 
         #endregion
 
@@ -45,7 +45,11 @@
             base.BecauseOf();
             try
             {
-                this.Saver.Save(StreamName, new[] { new object() }, null, this.expectedVersion);
+                this.EventStoreEventStreamRepository.Save(
+                    StreamName, 
+                    new[] { new object() }, 
+                    null, 
+                    this.expectedVersion);
             }
             catch (Exception ex)
             {

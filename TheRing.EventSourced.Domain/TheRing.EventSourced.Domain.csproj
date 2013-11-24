@@ -32,11 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregate\AggregateRootState.cs" />
@@ -53,9 +49,18 @@
     <Compile Include="Repository\Factory\IAggregateRootFactory.cs" />
     <Compile Include="Exceptions\UnKnownAggregateRootException.cs" />
     <Compile Include="Repository\IAggregateRootRepository.cs" />
+    <Compile Include="Repository\Snapshot\IGetSnapshotKeyFromAggregateRoot.cs" />
     <Compile Include="Repository\IGetStreamNameFromAggregateRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Aggregate\AggregateRootStateLess.cs" />
+    <Compile Include="Repository\Snapshot\ISnapshoter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TheRing.EventSourced.Core\TheRing.EventSourced.Core.csproj">
@@ -66,13 +71,6 @@
       <Project>{24FDEA91-C3A2-4D0B-881D-4F68D6A5B2BE}</Project>
       <Name>Thering.EventSourced.Eventing</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

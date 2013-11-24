@@ -7,15 +7,9 @@
         public StreamDeletedException(string streamName)
             : base(streamName, "stream '{0}' was deleted.")
         {
-            this.StreamName = streamName;
         }
 
         #endregion
 
-        #region Public Properties
-
-        public string StreamName { get; private set; }
-
-        #endregion
     }
 }
