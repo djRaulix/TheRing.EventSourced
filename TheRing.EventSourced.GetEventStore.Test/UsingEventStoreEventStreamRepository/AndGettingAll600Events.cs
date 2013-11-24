@@ -18,7 +18,7 @@
     {
         #region Fields
 
-        private readonly string StreamName = "AndGettingAll600Events-" + Guid.NewGuid().ToString().Replace("-", string.Empty);
+        private readonly string StreamName = "AndGettingAll600Events-" + Guid.NewGuid().ToString().Replace("-", "_");
 
         private IEnumerable<object> result;
 

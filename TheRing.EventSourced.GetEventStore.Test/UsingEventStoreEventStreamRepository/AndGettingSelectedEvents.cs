@@ -18,7 +18,7 @@
     {
         #region Fields
 
-        private readonly string StreamName = "AndGettingSelectedEvents-" + Guid.NewGuid().ToString().Replace("-", string.Empty);
+        private readonly string StreamName = "AndGettingSelectedEvents-" + Guid.NewGuid().ToString().Replace("-", "_");
 
         private readonly FakeEvent event0 = new FakeEvent(Guid.NewGuid());
 

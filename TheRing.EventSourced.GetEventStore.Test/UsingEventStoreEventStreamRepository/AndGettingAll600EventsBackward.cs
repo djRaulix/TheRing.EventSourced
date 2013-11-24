@@ -19,7 +19,7 @@
         #region Fields
 
         private readonly string StreamName = "AndGettingAll600EventsBackward-"
-                                             + Guid.NewGuid().ToString().Replace("-", string.Empty);
+                                             + Guid.NewGuid().ToString().Replace("-", "_");
 
         private IEnumerable<object> result;
 

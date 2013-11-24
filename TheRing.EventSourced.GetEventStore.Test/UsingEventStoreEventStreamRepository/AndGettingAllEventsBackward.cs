@@ -18,7 +18,7 @@
     {
         #region Fields
 
-        private readonly string StreamName = "AndGettingAllEventsBackward-" + Guid.NewGuid().ToString().Replace("-", string.Empty);
+        private readonly string StreamName = "AndGettingAllEventsBackward-" + Guid.NewGuid().ToString().Replace("-", "_");
 
         private readonly FakeEvent event1 = new FakeEvent(Guid.NewGuid());
 

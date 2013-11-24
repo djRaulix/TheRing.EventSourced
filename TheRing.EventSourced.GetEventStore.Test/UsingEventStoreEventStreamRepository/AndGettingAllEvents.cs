@@ -19,7 +19,7 @@
         #region Fields
 
         private readonly string StreamName = "AndGettingAllEvents-"
-                                             + Guid.NewGuid().ToString().Replace("-", string.Empty);
+                                             + Guid.NewGuid().ToString().Replace("-", "_");
 
         private readonly FakeEvent event1 = new FakeEvent(Guid.NewGuid());
 
