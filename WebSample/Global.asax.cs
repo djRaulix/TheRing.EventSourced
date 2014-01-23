@@ -1,14 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Net;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using EventStore.ClientAPI;
+using ServiceStack.Redis;
+using SimpleInjector;
+using SimpleInjector.Integration.Web.Mvc;
+using TheRing.EventSourced.Application;
+using TheRing.EventSourced.Core;
+using TheRing.EventSourced.Domain.Repository;
+using TheRing.EventSourced.Domain.Repository.Factory;
+using TheRing.EventSourced.Domain.Repository.Snapshot;
+using Thering.EventSourced.Eventing;
+using TheRing.EventSourced.GetEventStore;
+using TheRing.EventSourced.Redis;
+using WebSample.Commanding;
+using WebSample.Domain.User;
+using WebSample.ReadModel;
 
 namespace WebSample
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
@@ -16,6 +30,56 @@ namespace WebSample
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            var container = InitializeIoc();
+
+            DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
+        }
+
+        private static Container InitializeIoc()
+        {
+            var container = new Container();
+            container.RegisterSingle(typeof(IAggregateRootFactory), typeof(AggregateRootFactory));
+            container.RegisterSingle(typeof(IEventStreamRepository), typeof(EventStoreEventStreamRepository));
+            container.RegisterSingle(typeof(IGetStreamNameFromAggregateRoot), typeof(StreamNameFromAggregateRootGetter));
+            container.RegisterSingle(typeof(IGetSnapshotKeyFromAggregateRoot), typeof(SnapshotKeyFromAggregateRootGetter));
+            container.RegisterSingle(typeof(ISnapshoter), typeof(RedisSnapshoter));
+            container.RegisterSingle(typeof(IAggregateRootRepository), typeof(AggregateRootRepository));
+
+
+            container.RegisterSingle(typeof(ISerializeEvent), typeof(EventSerializer));
+            container.RegisterSingle(typeof(ISerialize), typeof(ServiceStackJsonSerializer));
+            container.RegisterSingle(typeof(ITypeAliaser), typeof(TypeAliaser));
+            container.RegisterSingle(typeof(IRedisClient), new RedisClient());
+
+            
+             
+            var connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
+            connection.Connect();
+
+
+            container.RegisterSingle<IHandlesEvent<UserAddressAdded>>(new UserViewDenormalizer());
+
+           
+
+            container.RegisterSingle(typeof(IEventStoreConnection), connection);
+
+            container.RegisterSingle(typeof(IHandle<AddAdressCommand>), typeof(UpdateAggregateHandler<User, AddAdressCommand>));
+            container.RegisterSingle(typeof(IHandle<CreateUserCommand>), typeof(CreateAggregateHandler<User, CreateUserCommand>));
+            var userCommandHandler = new UserCommandHandler();
+            container.RegisterSingle<IRunCommand<User, AddAdressCommand>>(userCommandHandler);
+            container.RegisterSingle<IRunCommand<User, CreateUserCommand>>(userCommandHandler);
+
+
+            container.RegisterSingle<IDispatch>(new Dispatcher(container));
+
+            container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
+            var eventPublisher = new EventPublisher(connection, container.GetInstance<ISerializeEvent>(), t =>
+            {
+                var eventQueue = new EventQueue<UserViewDenormalizer>(new UserViewDenormalizer()); // /!\ Should be stop at the end
+                return new[] { eventQueue };
+            });
+            return container;
         }
     }
 }

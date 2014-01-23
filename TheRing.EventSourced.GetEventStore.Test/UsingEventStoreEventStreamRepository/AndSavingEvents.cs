@@ -11,6 +11,8 @@
 
     using NUnit.Framework;
 
+    using TheRing.Test.Fakes;
+
     #endregion
 
     public class AndSavingEvents : UsingEventStoreEventStreamRepository

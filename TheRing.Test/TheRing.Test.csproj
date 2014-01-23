@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fakes\FakeEvent.cs" />
+    <Compile Include="Fakes\IntFakeEvent.cs" />
     <Compile Include="SpecBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

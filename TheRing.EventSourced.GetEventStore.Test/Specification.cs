@@ -2,13 +2,13 @@
 {
     #region using
 
-    using System;
     using System.Net;
 
     using EventStore.ClientAPI;
 
     using TheRing.EventSourced.Core;
     using TheRing.Test;
+    using TheRing.Test.Fakes;
 
     #endregion
 
@@ -39,23 +39,5 @@
         }
 
         #endregion
-
-        protected class FakeEvent
-        {
-            #region Fields
-
-            public readonly Guid No;
-
-            #endregion
-
-            #region Constructors and Destructors
-
-            public FakeEvent(Guid no)
-            {
-                this.No = no;
-            }
-
-            #endregion
-        }
     }
 }

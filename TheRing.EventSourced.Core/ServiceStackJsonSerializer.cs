@@ -11,7 +11,6 @@
 
     public class ServiceStackJsonSerializer : ISerialize
     {
-
         public ServiceStackJsonSerializer()
         {
             JsConfig.IncludePublicFields = true;

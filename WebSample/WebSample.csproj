@@ -39,7 +39,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EventStore.ClientAPI, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EventStore.Client.2.0.2\lib\net40\EventStore.ClientAPI.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="ServiceStack.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ServiceStack.Common.3.9.70\lib\net35\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Redis">
+      <HintPath>..\packages\ServiceStack.Redis.3.9.70\lib\net35\ServiceStack.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\packages\SimpleInjector.2.4.0\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Diagnostics">
+      <HintPath>..\packages\SimpleInjector.2.4.0\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.2.4.0\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web.Mvc">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.Mvc.2.4.0\lib\net40\SimpleInjector.Integration.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -115,6 +138,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Commanding\AddAdressCommand.cs" />
+    <Compile Include="Commanding\AddUserCommand.cs" />
+    <Compile Include="Commanding\UserCommandHandler.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="Domain\User\UserAddressAdded.cs" />
@@ -127,6 +153,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadModel\Database.cs" />
+    <Compile Include="ReadModel\UserViewDenormalizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -159,11 +187,32 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Home\MaxErrorOccuredView.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TheRing.EventSourced.Application\TheRing.EventSourced.Application.csproj">
+      <Project>{C5AC99BF-7070-4812-A6D3-04C99188FE77}</Project>
+      <Name>TheRing.EventSourced.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TheRing.EventSourced.Core\TheRing.EventSourced.Core.csproj">
+      <Project>{B88AD40E-6724-427F-AD21-D2215DC646BC}</Project>
+      <Name>TheRing.EventSourced.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TheRing.EventSourced.Domain\TheRing.EventSourced.Domain.csproj">
       <Project>{2D0BBB25-1AC3-476A-A5CF-F637A1FFFA4C}</Project>
       <Name>TheRing.EventSourced.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thering.EventSourced.Eventing\Thering.EventSourced.Eventing.csproj">
+      <Project>{24FDEA91-C3A2-4D0B-881D-4F68D6A5B2BE}</Project>
+      <Name>Thering.EventSourced.Eventing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TheRing.EventSourced.GetEventStore\TheRing.EventSourced.GetEventStore.csproj">
+      <Project>{52C88BF5-0981-4CEE-93AA-5143DBA7EF69}</Project>
+      <Name>TheRing.EventSourced.GetEventStore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TheRing.EventSourced.Redis\TheRing.EventSourced.Redis.csproj">
+      <Project>{27DF7B1B-68AB-46DC-BD40-04485F255D1B}</Project>
+      <Name>TheRing.EventSourced.Redis</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

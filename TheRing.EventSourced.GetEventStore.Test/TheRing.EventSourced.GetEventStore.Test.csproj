@@ -33,6 +33,9 @@
     <Reference Include="EventStore.ClientAPI">
       <HintPath>..\packages\EventStore.Client.2.0.2\lib\net40\EventStore.ClientAPI.dll</HintPath>
     </Reference>
+    <Reference Include="FakeItEasy">
+      <HintPath>..\packages\FakeItEasy.1.17.0\lib\net40\FakeItEasy.dll</HintPath>
+    </Reference>
     <Reference Include="FluentAssertions">
       <HintPath>..\packages\FluentAssertions.2.1.0.0\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
@@ -42,14 +45,15 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Specification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UsingEventPublisher\AndSavingEventWithTwoSubscribers.cs" />
+    <Compile Include="UsingEventPublisher\AndSavingOnSystemStream.cs" />
+    <Compile Include="UsingEventPublisher\UsingEventPublisher.cs" />
     <Compile Include="UsingEventStoreEventStreamRepository\AndGettingAll600EventsBackward.cs" />
     <Compile Include="UsingEventStoreEventStreamRepository\AndGettingAll600Events.cs" />
     <Compile Include="UsingEventStoreEventStreamRepository\AndGettingAllEventsBackward.cs" />
@@ -83,9 +87,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UsingAggregateRootRepository\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

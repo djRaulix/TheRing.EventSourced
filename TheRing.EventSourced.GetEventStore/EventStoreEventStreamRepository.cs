@@ -1,4 +1,6 @@
-﻿namespace TheRing.EventSourced.GetEventStore
+﻿using EventStore.ClientAPI.SystemData;
+
+namespace TheRing.EventSourced.GetEventStore
 {
     #region using
 
@@ -81,7 +83,7 @@
 
             var eventsToSave = events.Select(e => this.serializer.Serialize(e, headers));
 
-            this.eventStoreConnection.AppendToStream(streamName, expectVersion, eventsToSave);
+            this.eventStoreConnection.AppendToStream(streamName, expectVersion, eventsToSave, new UserCredentials("admin", "admin"));
         }
 
         public void Save(
