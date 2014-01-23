@@ -10,7 +10,7 @@ namespace Thering.EventSourced.Eventing.Test
 
     using TheRing.Test.Fakes;
 
-    public class FakeEventHandler :  IHandlesEvent<FakeEvent>, IHandlesEvent<IntFakeEvent>
+    public class FakeEventHandler :  IHandleEvent<FakeEvent>, IHandleEvent<IntFakeEvent>
     {
         public FakeEvent LastHandledEvent { get; private set; }
 
@@ -25,14 +25,14 @@ namespace Thering.EventSourced.Eventing.Test
             this.HandledIntFakeEvent = new Dictionary<int, IntFakeEvent>();
         }
 
-        public virtual void Handles(FakeEvent @event)
+        public void Handle(FakeEvent @event)
         {
             this.LastHandledEvent = @event;
             this.HandledEvents.Add(@event);
             Trace.WriteLine("Fake Event Hanlded Id : " + @event.No);
         }
 
-        public virtual void Handles(IntFakeEvent @event)
+        public void Handle(IntFakeEvent @event)
         {
             this.HandledIntFakeEvent.Add(++this.count, @event);
             Thread.Sleep(100); //Latency simulation

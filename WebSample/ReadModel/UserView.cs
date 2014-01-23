@@ -4,7 +4,7 @@ namespace WebSample.ReadModel
 {
     using System;
 
-    public class Database
+    public class UserView
     {
         public static ICollection<string> Adresses { get; set; }
         public static Guid UserId { get; set; }

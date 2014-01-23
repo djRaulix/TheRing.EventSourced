@@ -4,6 +4,7 @@
 
     using TheRing.EventSourced.Domain.Aggregate;
 
+    using WebSample.Domain.User.Events;
     using WebSample.Exceptions;
 
     #endregion

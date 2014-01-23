@@ -22,6 +22,13 @@ using WebSample.ReadModel;
 
 namespace WebSample
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+
+    using WebSample.Domain.User.Events;
+
     public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
@@ -58,7 +65,7 @@ namespace WebSample
             connection.Connect();
 
 
-            container.RegisterSingle<IHandlesEvent<UserAddressAdded>>(new UserViewDenormalizer());
+            container.RegisterSingle<IHandleEvent<UserAddressAdded>>(new UserViewDenormalizer());
 
            
 
@@ -72,13 +79,35 @@ namespace WebSample
 
 
             container.RegisterSingle<IDispatch>(new Dispatcher(container));
-
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
-            var eventPublisher = new EventPublisher(connection, container.GetInstance<ISerializeEvent>(), t =>
+
+            var eventQueueFactory = new Dictionary<Type, ICollection<IEventQueue>>();
+            var eventQueues = new Dictionary<Type,IEventQueue>();
+
+            foreach (var denormalizerType in typeof(UserViewDenormalizer).Assembly.GetTypes().Where(t => typeof(IHandleEvent).IsAssignableFrom(t)))
             {
-                var eventQueue = new EventQueue<UserViewDenormalizer>(new UserViewDenormalizer()); // /!\ Should be stop at the end
-                return new[] { eventQueue };
-            });
+                eventQueues.Add(denormalizerType, (new EventQueue((IHandleEvent)Activator.CreateInstance(denormalizerType)))); 
+            }
+
+            foreach (var eventType in typeof(UserCreated).Assembly.GetTypes().Where(t => t.Namespace != null && t.Namespace.Equals("WebSample.Domain.User.Events")))
+            {
+                if (!eventQueueFactory.ContainsKey(eventType))
+                {
+                    eventQueueFactory.Add(eventType, new Collection<IEventQueue>());
+                }
+
+                foreach (var denormalizerType in typeof(UserViewDenormalizer).Assembly.GetTypes().Where(t => typeof(IHandleEvent<>).MakeGenericType(eventType).IsAssignableFrom(t)))
+                {
+                    if (!eventQueueFactory[eventType].Contains(eventQueues[denormalizerType]))
+                    {
+                        eventQueueFactory[eventType].Add(eventQueues[denormalizerType]);
+                    }
+                }
+            }
+
+            //eventPublisher will subsribe
+            new EventPublisher(connection, container.GetInstance<ISerializeEvent>(),t => eventQueueFactory[t]);
+
             return container;
         }
     }

@@ -143,17 +143,18 @@
     <Compile Include="Commanding\UserCommandHandler.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Domain\User\User.cs" />
-    <Compile Include="Domain\User\UserAddressAdded.cs" />
-    <Compile Include="Domain\User\UserConfirmed.cs" />
-    <Compile Include="Domain\User\UserCreated.cs" />
-    <Compile Include="Domain\User\UserDeleted.cs" />
+    <Compile Include="Domain\User\Events\UserAddressAdded.cs" />
+    <Compile Include="Domain\User\Events\UserConfirmed.cs" />
+    <Compile Include="Domain\User\Events\UserCreated.cs" />
+    <Compile Include="Domain\User\Events\UserDeleted.cs" />
     <Compile Include="Domain\User\UserState.cs" />
     <Compile Include="Exceptions\MaxNbAddressesReachedException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReadModel\Database.cs" />
+    <Compile Include="ReadModel\AdressView.cs" />
+    <Compile Include="ReadModel\UserView.cs" />
     <Compile Include="ReadModel\UserViewDenormalizer.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace WebSample.Domain.User
+﻿namespace WebSample.Domain.User.Events
 {
     public class UserDeleted
     {

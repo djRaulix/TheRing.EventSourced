@@ -15,7 +15,7 @@ namespace WebSample.Controllers
         public HomeController(IDispatch commandDispatcher)
         {
             this.commandDispatcher = commandDispatcher;
-            if (Database.Adresses == null)
+            if (UserView.Adresses == null)
             {
                 var command = new CreateUserCommand
                 {
@@ -23,7 +23,7 @@ namespace WebSample.Controllers
                     LastName = "Titi"
                 };
                 commandDispatcher.Dispatch(command);
-                Database.UserId = command.AggregateRootId;
+                UserView.UserId = command.AggregateRootId;
             }   
         }
 
@@ -52,7 +52,7 @@ namespace WebSample.Controllers
              var command = new AddAdressCommand
              {
                  Address = adress,
-                 AggregateRootId = Database.UserId
+                 AggregateRootId = UserView.UserId
              };
              var result = commandDispatcher.Dispatch(command);
 

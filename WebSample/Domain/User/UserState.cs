@@ -4,6 +4,8 @@
 
     using TheRing.EventSourced.Domain.Aggregate;
 
+    using WebSample.Domain.User.Events;
+
     #endregion
 
     public class UserState : AggregateRootState

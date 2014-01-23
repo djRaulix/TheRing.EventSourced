@@ -3,15 +3,15 @@
     using System.Collections.Concurrent;
     using System.Threading;
 
-    public class EventQueue<TEventHandler> : IEventQueue
+    public class EventQueue : IEventQueue
     {
-        private readonly TEventHandler eventHandler;
+        private readonly IHandleEvent eventHandler;
 
         private readonly BlockingCollection<object> queue;
 
         private bool stopped;
 
-        public EventQueue(TEventHandler eventHandler)
+        public EventQueue(IHandleEvent eventHandler)
         {
             this.eventHandler = eventHandler;
             this.queue = new BlockingCollection<object>();
@@ -45,7 +45,7 @@
 
         private void HandleEvent<T>(T @event)
         {
-            ((IHandlesEvent<T>)eventHandler).Handles(@event);
+            ((IHandleEvent<T>)eventHandler).Handle(@event);
         }
     }
 }

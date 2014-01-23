@@ -6,13 +6,13 @@
     {
         protected FakeEventHandler FakeEventHandler { get; private set; }
 
-        protected EventQueue<FakeEventHandler> EventQueue { get; private set; }
+        protected EventQueue EventQueue { get; private set; }
 
         protected override void EstablishContext()
         {
             base.EstablishContext();
             this.FakeEventHandler = new FakeEventHandler();
-            this.EventQueue = new EventQueue<FakeEventHandler>(this.FakeEventHandler);
+            this.EventQueue = new EventQueue(this.FakeEventHandler);
         }
 
         protected override void Cleanup()

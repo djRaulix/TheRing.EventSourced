@@ -16,8 +16,16 @@
 </div>
 
 <div>
-    Adresses : <br />
-    @foreach (var address in Database.Adresses)
+    UserView Adresses : <br />
+    @foreach (var address in UserView.Adresses)
+    {
+        <div><b>@address</b></div>
+    }
+</div>
+
+<div>
+    AdressView Adresses : <br />
+    @foreach (var address in AdressView.Adresses)
     {
         <div><b>@address</b></div>
     }
