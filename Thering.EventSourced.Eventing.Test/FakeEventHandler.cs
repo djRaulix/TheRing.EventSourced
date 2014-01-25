@@ -15,6 +15,7 @@ namespace Thering.EventSourced.Eventing.Test
         public FakeEvent LastHandledEvent { get; private set; }
 
         public ICollection<FakeEvent> HandledEvents { get; private set; }
+
         public IDictionary<int,IntFakeEvent> HandledIntFakeEvent { get; private set; }
 
         private int count; 
@@ -25,7 +26,7 @@ namespace Thering.EventSourced.Eventing.Test
             this.HandledIntFakeEvent = new Dictionary<int, IntFakeEvent>();
         }
 
-        public void Handle(FakeEvent @event)
+        public virtual void Handle(FakeEvent @event)
         {
             this.LastHandledEvent = @event;
             this.HandledEvents.Add(@event);

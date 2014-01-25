@@ -49,9 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FakeEventHandler.cs" />
+    <Compile Include="FakeEventHandlerThatFail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsingEventQueue\AndPushing5FakeEvents.cs" />
     <Compile Include="UsingEventQueue\AndPushingaFakeEvent.cs" />
+    <Compile Include="UsingEventQueue\AndPushingaFakeEventThatFailOnHandling.cs" />
     <Compile Include="UsingEventQueue\UsingEventQueue.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +69,7 @@
       <Name>TheRing.Test</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

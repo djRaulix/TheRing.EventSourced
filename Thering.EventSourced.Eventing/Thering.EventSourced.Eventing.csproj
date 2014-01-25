@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="EventQueue.cs" />
     <Compile Include="EventWithMetadata.cs" />
+    <Compile Include="IHandleError.cs" />
     <Compile Include="IHandleEvent.cs" />
     <Compile Include="IEventQueue.cs" />
     <Compile Include="IEventStreamRepository.cs" />

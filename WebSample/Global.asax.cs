@@ -28,6 +28,7 @@ namespace WebSample
     using System.Linq;
 
     using WebSample.Domain.User.Events;
+    using WebSample.Eventing;
 
     public class MvcApplication : HttpApplication
     {
@@ -86,7 +87,7 @@ namespace WebSample
 
             foreach (var denormalizerType in typeof(UserViewDenormalizer).Assembly.GetTypes().Where(t => typeof(IHandleEvent).IsAssignableFrom(t)))
             {
-                eventQueues.Add(denormalizerType, (new EventQueue((IHandleEvent)Activator.CreateInstance(denormalizerType)))); 
+                eventQueues.Add(denormalizerType, (new EventQueue((IHandleEvent)Activator.CreateInstance(denormalizerType), new ErrorHanlder()))); 
             }
 
             foreach (var eventType in typeof(UserCreated).Assembly.GetTypes().Where(t => t.Namespace != null && t.Namespace.Equals("WebSample.Domain.User.Events")))
