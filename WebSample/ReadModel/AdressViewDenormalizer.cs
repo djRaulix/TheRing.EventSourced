@@ -7,18 +7,17 @@
 
     using WebSample.Domain.User.Events;
 
-    public class UserViewDenormalizer : IHandleEvent<UserAddressAdded>,
-                                        IHandleEvent<UserCreated>
+    public class AdressViewDenormalizer : IHandleEvent<UserAddressAdded>, IHandleEvent<UserCreated>
     {
         public void Handle(UserAddressAdded @event)
         {
-            UserView.Adresses.Add(@event.Address);
-            Trace.WriteLine("UserviewDenormalizer handled UserAddressAdded event !");
+            AdressView.Adresses.Add(@event.Address);
+            Trace.WriteLine("AdressViewDenormalizer handled UserAddressAdded event !");
         }
 
         public void Handle(UserCreated @event)
         {
-            UserView.Adresses = new Collection<string>();
+            AdressView.Adresses = new Collection<string>();
         }
     }
 }

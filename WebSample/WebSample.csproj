@@ -155,6 +155,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadModel\AdressView.cs" />
+    <Compile Include="ReadModel\AdressViewDenormalizer.cs" />
     <Compile Include="ReadModel\UserView.cs" />
     <Compile Include="ReadModel\UserViewDenormalizer.cs" />
   </ItemGroup>

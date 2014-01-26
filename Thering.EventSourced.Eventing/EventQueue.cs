@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Concurrent;
+    using System.Diagnostics;
     using System.Threading;
 
     public class EventQueue : IEventQueue
@@ -11,7 +12,6 @@
 
         private readonly BlockingCollection<object> queue;
 
-        private bool stopped;
 
         public EventQueue(IHandleEvent eventHandler, IHandleError errorHandler)
         {
@@ -24,25 +24,24 @@
 
         public void Push(object @event)
         {
-            queue.Add(@event);
+            if (!queue.IsAddingCompleted)
+            {
+                Trace.WriteLine(DateTime.Now + " Push to queue !");
+                queue.Add(@event);    
+            }
         }
 
         public void Stop()
         {
             queue.CompleteAdding();
-            while (!queue.IsCompleted); //wait for empty
-            stopped = true;
+            Trace.WriteLine(DateTime.Now  + " Stop queue !");
         }
 
         private void WaitAndHandle()
         {
-            while (true)
+            while (!queue.IsCompleted)
             {
                 HandleEvent((dynamic)queue.Take());
-                if (stopped)
-                {
-                    break;
-                }
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿
 namespace Thering.EventSourced.Eventing.Test
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
@@ -30,14 +31,14 @@ namespace Thering.EventSourced.Eventing.Test
         {
             this.LastHandledEvent = @event;
             this.HandledEvents.Add(@event);
-            Trace.WriteLine("Fake Event Hanlded Id : " + @event.No);
+            Trace.WriteLine(DateTime.Now + " Fake Event Hanlded Id : " + @event.No);
         }
 
         public void Handle(IntFakeEvent @event)
         {
             this.HandledIntFakeEvent.Add(++this.count, @event);
             Thread.Sleep(100); //Latency simulation
-            Trace.WriteLine("Int Fake Event Hanlded ! Id : " + @event.No);
+            Trace.WriteLine(DateTime.Now + " Int Fake Event Hanlded ! Id : " + @event.No);
         }
     }
 }

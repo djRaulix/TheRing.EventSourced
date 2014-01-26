@@ -24,6 +24,7 @@
         public void ThenAllEventShouldHaveBeenHandledInRightOrder()
         {
             Thread.Sleep(1200);
+            FakeEventHandler.HandledIntFakeEvent.Count.Should().Be(5);
             foreach (var intFakeEvent in this.FakeEventHandler.HandledIntFakeEvent)
             {
                 intFakeEvent.Key.Should().Be(intFakeEvent.Value.No);

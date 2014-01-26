@@ -25,7 +25,7 @@
             eventStoreConnection.SubscribeToAll(false, Publish, Disconnect, new UserCredentials("admin", "admin"));
         }
 
-        private void Disconnect(EventStoreSubscription arg1, SubscriptionDropReason arg2, Exception arg3)
+        private void Disconnect(EventStoreSubscription eventStoreSubscription, SubscriptionDropReason subscriptionDropReason, Exception exception)
         {
             Subscribe();
         }
