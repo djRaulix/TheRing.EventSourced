@@ -24,7 +24,7 @@
         {
             base.EstablishContext();
             ErrorHanlder = A.Fake<IHandleError>();
-            this.EventQueue = new EventQueue(this.FakeEventHandler, ErrorHanlder);
+            this.EventQueue = new EventQueue(new EventHandler(this.FakeEventHandler, ErrorHanlder));
         }
 
         protected override void Cleanup()

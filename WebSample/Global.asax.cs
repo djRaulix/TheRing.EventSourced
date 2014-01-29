@@ -30,6 +30,8 @@ namespace WebSample
     using WebSample.Domain.User.Events;
     using WebSample.Eventing;
 
+    using EventHandler = Thering.EventSourced.Eventing.EventHandler;
+
     public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
@@ -87,7 +89,7 @@ namespace WebSample
 
             foreach (var denormalizerType in typeof(UserViewDenormalizer).Assembly.GetTypes().Where(t => typeof(IHandleEvent).IsAssignableFrom(t)))
             {
-                eventQueues.Add(denormalizerType, (new EventQueue((IHandleEvent)Activator.CreateInstance(denormalizerType), new ErrorHanlder()))); 
+                eventQueues.Add(denormalizerType, (new EventQueue(new EventHandler((IHandleEvent)Activator.CreateInstance(denormalizerType), new ErrorHanlder())))); 
             }
 
             foreach (var eventType in typeof(UserCreated).Assembly.GetTypes().Where(t => t.Namespace != null && t.Namespace.Equals("WebSample.Domain.User.Events")))

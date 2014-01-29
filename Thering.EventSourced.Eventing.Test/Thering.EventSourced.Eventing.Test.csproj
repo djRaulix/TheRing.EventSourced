@@ -54,7 +54,7 @@
     <Compile Include="UsingEventQueue\AndPushing5FakeEvents.cs" />
     <Compile Include="UsingEventQueue\AndPushingaFakeEvent.cs" />
     <Compile Include="UsingEventQueue\AndPushingaFakeEventThatFailOnHandling.cs" />
-    <Compile Include="UsingEventQueue\AndStopQueueWhileContainingEvetnsToHandle.cs" />
+    <Compile Include="UsingEventQueue\AndStopQueueWhileContainingEventsToHandle.cs" />
     <Compile Include="UsingEventQueue\UsingEventQueue.cs" />
   </ItemGroup>
   <ItemGroup>

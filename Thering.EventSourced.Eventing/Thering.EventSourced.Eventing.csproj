@@ -35,8 +35,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventHandler.cs" />
     <Compile Include="EventQueue.cs" />
     <Compile Include="EventWithMetadata.cs" />
+    <Compile Include="IEventHandler.cs" />
     <Compile Include="IHandleError.cs" />
     <Compile Include="IHandleEvent.cs" />
     <Compile Include="IEventQueue.cs" />

@@ -9,7 +9,7 @@
 
     using TheRing.Test.Fakes;
 
-    public class AndStopQueueWhileContainingEvetnsToHandle : UsingEventQueue
+    public class AndStopQueueWhileContainingEventsToHandle : UsingEventQueue
     {
         private const int EventBeforeStopCount = 7;
 
