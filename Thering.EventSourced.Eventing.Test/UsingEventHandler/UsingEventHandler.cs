@@ -4,27 +4,31 @@
 
     using TheRing.Test;
 
+    using EventHandler = Thering.EventSourced.Eventing.EventHandler;
+
     public abstract class UsingEventHandler : SpecBase
     {
-        private readonly FakeEventHandlerThatFail fakeEventHandler = new FakeEventHandlerThatFail();
+        private readonly FakeEventHandler fakeEventHandler = new FakeEventHandler();
 
-        protected FakeEventHandler FakeEventHandler
+        protected virtual FakeEventHandler FakeEventHandler
         {
             get
             {
                 return this.fakeEventHandler;
             }
         }
-
         protected IHandleError ErrorHandler { get; private set; }
 
         protected EventHandler EventHandler { get; private set; }
+
+        protected IEventPositionRepository EventPositionRepository { get; private set; }
 
         protected override void EstablishContext()
         {
             base.EstablishContext();
             this.ErrorHandler = A.Fake<IHandleError>();
-            this.EventHandler = new EventHandler(this.FakeEventHandler, this.ErrorHandler);
+            this.EventPositionRepository = A.Fake<IEventPositionRepository>();
+            this.EventHandler = new EventHandler(FakeEventHandler, this.ErrorHandler, EventPositionRepository);
         }
     }
 }

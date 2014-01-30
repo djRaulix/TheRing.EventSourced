@@ -31,7 +31,7 @@
         public void ThenMetadataShouldBeSaved()
         {
             var currentSlice = this.Connection.ReadStreamEventsBackward(StreamName, StreamPosition.End, 1, false);
-            var metadata = this.EventSerializer.Deserialize(currentSlice.Events.First().OriginalEvent).Metadata;
+            var metadata = this.EventSerializer.Deserialize(currentSlice.Events.First().OriginalEvent, currentSlice.Events.First().OriginalEventNumber).Metadata;
             metadata[MetadataKey].Should().Be(MetadataValue);
         }
 

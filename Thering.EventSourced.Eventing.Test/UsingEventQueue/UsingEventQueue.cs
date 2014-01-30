@@ -16,15 +16,12 @@
             }
         }
 
-        protected IHandleError ErrorHanlder { get; private set; }
-
         protected EventQueue EventQueue { get; private set; }
 
         protected override void EstablishContext()
         {
             base.EstablishContext();
-            ErrorHanlder = A.Fake<IHandleError>();
-            this.EventQueue = new EventQueue(new EventHandler(this.FakeEventHandler, ErrorHanlder));
+            this.EventQueue = new EventQueue(new EventHandler(this.FakeEventHandler, A.Fake<IHandleError>(), A.Fake<IEventPositionRepository>()));
         }
 
         protected override void Cleanup()

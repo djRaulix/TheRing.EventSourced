@@ -37,11 +37,11 @@
         public void ThenEventsShouldBeSaved()
         {
             var currentSlice = this.Connection.ReadStreamEventsBackward(StreamName, StreamPosition.End, 2, false);
-            this.EventSerializer.Deserialize(currentSlice.Events.First().OriginalEvent)
+            this.EventSerializer.Deserialize(currentSlice.Events.First().OriginalEvent, currentSlice.Events.First().OriginalEventNumber)
                 .Event.As<FakeEvent>()
                 .No.Should()
                 .Be(this.event2.No);
-            this.EventSerializer.Deserialize(currentSlice.Events.Last().OriginalEvent)
+            this.EventSerializer.Deserialize(currentSlice.Events.Last().OriginalEvent, currentSlice.Events.Last().OriginalEventNumber)
                 .Event.As<FakeEvent>()
                 .No.Should()
                 .Be(this.event1.No);

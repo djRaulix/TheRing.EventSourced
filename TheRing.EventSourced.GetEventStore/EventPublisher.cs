@@ -34,11 +34,11 @@
         {
             if (!@event.OriginalStreamId.StartsWith("$")) // do not handle system event
             {
-                var deserializedEvent = eventSerializer.Deserialize(@event.OriginalEvent).Event;
-                
-                foreach (var eventQueue in eventQueueFactory(deserializedEvent.GetType()))
+                var eventWithMetadata = eventSerializer.Deserialize(@event.OriginalEvent, @event.OriginalEventNumber);
+
+                foreach (var eventQueue in eventQueueFactory(eventWithMetadata.Event.GetType()))
                 {
-                    eventQueue.Push(deserializedEvent);
+                    eventQueue.Push(eventWithMetadata);
                 }
             }
         }

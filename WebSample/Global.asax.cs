@@ -89,7 +89,7 @@ namespace WebSample
 
             foreach (var denormalizerType in typeof(UserViewDenormalizer).Assembly.GetTypes().Where(t => typeof(IHandleEvent).IsAssignableFrom(t)))
             {
-                eventQueues.Add(denormalizerType, (new EventQueue(new EventHandler((IHandleEvent)Activator.CreateInstance(denormalizerType), new ErrorHanlder())))); 
+                eventQueues.Add(denormalizerType, (new EventQueue(new EventHandler((IHandleEvent)Activator.CreateInstance(denormalizerType), new ErrorHanlder(), new EventPositionRepository())))); 
             }
 
             foreach (var eventType in typeof(UserCreated).Assembly.GetTypes().Where(t => t.Namespace != null && t.Namespace.Equals("WebSample.Domain.User.Events")))

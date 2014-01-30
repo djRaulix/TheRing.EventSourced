@@ -60,7 +60,7 @@ namespace TheRing.EventSourced.GetEventStore
         {
             var currentSlice = this.eventStoreConnection.ReadStreamEventsBackward(streamName, fromVersion, count, false);
 
-            return currentSlice.Events.Select(evnt => this.serializer.Deserialize(evnt.OriginalEvent));
+            return currentSlice.Events.Select(evnt => this.serializer.Deserialize(evnt.OriginalEvent, evnt.OriginalEventNumber));
         }
 
         public IEnumerable<EventWithMetadata> GetWithMetadata(
@@ -70,7 +70,7 @@ namespace TheRing.EventSourced.GetEventStore
         {
             var currentSlice = this.eventStoreConnection.ReadStreamEventsForward(streamName, fromVersion, count, false);
 
-            return currentSlice.Events.Select(evnt => this.serializer.Deserialize(evnt.OriginalEvent));
+            return currentSlice.Events.Select(evnt => this.serializer.Deserialize(evnt.OriginalEvent, evnt.OriginalEventNumber));
         }
 
         public void Save(

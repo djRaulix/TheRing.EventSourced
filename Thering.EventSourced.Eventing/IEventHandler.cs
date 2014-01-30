@@ -2,6 +2,6 @@
 {
     public interface IEventHandler
     {
-        void Handle(object @event);
+        void Handle(EventWithMetadata eventWithMetadata);
     }
 }

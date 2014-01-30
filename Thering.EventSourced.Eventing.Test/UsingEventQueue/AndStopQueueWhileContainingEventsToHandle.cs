@@ -26,13 +26,13 @@
 
             for (var i = 1; i <= EventBeforeStopCount; i++)
             {
-                this.EventQueue.Push(new IntFakeEvent(i));
+                this.EventQueue.Push(new EventWithMetadata(new IntFakeEvent(i), 0));
             }
             this.EventQueue.Stop();
 
             for (var i = EventBeforeStopCount; i <= EventAfterStopCount + EventBeforeStopCount; i++)
             {
-                this.EventQueue.Push(new IntFakeEvent(i));
+                this.EventQueue.Push(new EventWithMetadata(new IntFakeEvent(i), 0));
             }
         }
 

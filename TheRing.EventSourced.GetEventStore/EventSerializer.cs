@@ -41,14 +41,14 @@
 
         #region Public Methods and Operators
 
-        public EventWithMetadata Deserialize(RecordedEvent recordedEvent)
+        public EventWithMetadata Deserialize(RecordedEvent recordedEvent, int eventPosition)
         {
             var eventHeaders = this.serializer.Deserialize<Dictionary<string, object>>(recordedEvent.Metadata);
             var @event = this.serializer.Deserialize(
                 recordedEvent.Data, 
                 this.typeAliaser.GetType(recordedEvent.EventType));
 
-            return new EventWithMetadata(@event, eventHeaders);
+            return new EventWithMetadata(@event, eventPosition, eventHeaders);
         }
 
         public EventData Serialize(object @event, IDictionary<string, object> headers = null)

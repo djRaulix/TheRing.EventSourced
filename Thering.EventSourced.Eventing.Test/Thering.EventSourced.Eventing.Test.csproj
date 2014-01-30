@@ -51,6 +51,7 @@
     <Compile Include="FakeEventHandler.cs" />
     <Compile Include="FakeEventHandlerThatFail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UsingEventHandler\AndHandlingAnEvent.cs" />
     <Compile Include="UsingEventQueue\AndPushing5FakeEvents.cs" />
     <Compile Include="UsingEventQueue\AndPushingaFakeEvent.cs" />
     <Compile Include="UsingEventHandler\AndhandlingAFakeEventThatFailOnHandling.cs" />

@@ -12,18 +12,27 @@
     public class AndhandlingAFakeEventThatFailOnHandling : UsingEventHandler
     {
         private readonly Guid eventId = Guid.NewGuid();
-       
+
+        private readonly FakeEventHandlerThatFail fakeEventHandlerThatFail = new FakeEventHandlerThatFail();
+
+        protected override FakeEventHandler FakeEventHandler
+        {
+            get
+            {
+                return fakeEventHandlerThatFail;
+            }
+        }
 
         protected override void BecauseOf()
         {
             base.BecauseOf();
-            this.EventHandler.Handle(new FakeEvent(this.eventId));
+            this.EventHandler.Handle(new EventWithMetadata(new FakeEvent(this.eventId), 0));
         }
 
         [Test]
         public void ThenEventShouldBeHandleByErrorHandler()
         {
-            var thrownErrorMessage = ((FakeEventHandlerThatFail)this.FakeEventHandler).ThrownException.Message;
+            var thrownErrorMessage = fakeEventHandlerThatFail.ThrownException.Message;
 
             this.ErrorHandler.CallsTo(handler => 
                 handler.HandleError(A<FakeEvent>.That.Matches(e => e.No == this.eventId), A<Exception>.That.Matches(e => e.Message.Equals(thrownErrorMessage))))

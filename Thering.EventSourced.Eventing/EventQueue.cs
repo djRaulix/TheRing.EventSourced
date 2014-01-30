@@ -7,18 +7,18 @@
     {
         private readonly IEventHandler eventHandler;
 
-        private readonly BlockingCollection<object> queue;
+        private readonly BlockingCollection<EventWithMetadata> queue;
 
 
         public EventQueue(IEventHandler eventHandler)
         {
             this.eventHandler = eventHandler;
-            this.queue = new BlockingCollection<object>();
+            this.queue = new BlockingCollection<EventWithMetadata>();
             var waiter = new Thread(WaitAndHandle);
             waiter.Start();
         }
 
-        public void Push(object @event)
+        public void Push(EventWithMetadata @event)
         {
             if (!queue.IsAddingCompleted)
             {
