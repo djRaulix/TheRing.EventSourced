@@ -20,7 +20,7 @@ namespace Thering.EventSourced.Eventing.Test.UsingEventHandler
         protected override void BecauseOf()
         {
             base.BecauseOf();
-            this.EventHandler.Handle(new EventWithMetadata(new FakeEvent(this.eventId), EventPosition));   
+            this.EventHandler.Handle(new EventWithMetadata(new FakeEvent(this.eventId)), EventPosition);   
         }
 
         [Test]

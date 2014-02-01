@@ -48,7 +48,7 @@
                 recordedEvent.Data, 
                 this.typeAliaser.GetType(recordedEvent.EventType));
 
-            return new EventWithMetadata(@event, eventPosition, eventHeaders);
+            return new EventWithMetadata(@event, eventHeaders);
         }
 
         public EventData Serialize(object @event, IDictionary<string, object> headers = null)

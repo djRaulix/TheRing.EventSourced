@@ -59,7 +59,7 @@ namespace TheRing.EventSourced.GetEventStore.Test.UsingEventPublisher
         {
             //Attente car operation asynchrone
             Thread.Sleep(1000);
-            eventQueue.CallsTo(q => q.Push(A<EventWithMetadata>.Ignored)).MustHaveHappened(Repeated.Never);
+            eventQueue.CallsTo(q => q.Push(A<EventWithMetadata>.Ignored, A<int>.Ignored)).MustHaveHappened(Repeated.Never);
         }
     }
 }

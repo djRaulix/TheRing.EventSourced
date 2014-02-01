@@ -2,7 +2,7 @@
 {
     public interface IEventQueue
     {
-        void Push(EventWithMetadata @event);
+        void Push(EventWithMetadata @event, int position);
 
         void Stop();
     }

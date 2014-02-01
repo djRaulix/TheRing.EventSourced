@@ -21,6 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheRing.EventSourced.GetEve
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7EDC1B0A-9557-464D-A6A0-DC94E4707C03}"
 	ProjectSection(SolutionItems) = preProject
+		AllAggreagatesProjection.js = AllAggreagatesProjection.js
 		HowToStartServer.txt = HowToStartServer.txt
 	EndProjectSection
 EndProject

@@ -41,7 +41,6 @@
     <Compile Include="IEventHandler.cs" />
     <Compile Include="IEventPositionRepository.cs" />
     <Compile Include="IHandleError.cs" />
-    <Compile Include="IHandleEvent.cs" />
     <Compile Include="IEventQueue.cs" />
     <Compile Include="IEventStreamRepository.cs" />
     <Compile Include="IHandleEvent`1.cs" />

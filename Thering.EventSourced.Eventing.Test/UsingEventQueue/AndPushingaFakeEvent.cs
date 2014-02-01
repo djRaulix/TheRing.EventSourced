@@ -16,7 +16,7 @@
         protected override void BecauseOf()
         {
             base.BecauseOf();
-            this.EventQueue.Push(new EventWithMetadata(new FakeEvent(this.eventId), 0));
+            this.EventQueue.Push(new EventWithMetadata(new FakeEvent(this.eventId)), 0);
         }
 
         [Test]

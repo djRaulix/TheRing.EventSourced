@@ -1,7 +1,7 @@
 ﻿namespace Thering.EventSourced.Eventing
 {
-    public interface IEventHandler
+    public interface IHandleEvent
     {
-        void Handle(EventWithMetadata eventWithMetadata);
+        void Handle(EventWithMetadata eventWithMetadata, int positon);
     }
 }

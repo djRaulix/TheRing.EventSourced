@@ -47,7 +47,7 @@
             Thread.Sleep(1000);
             foreach (var eventQueue in eventQueues)
             {
-                eventQueue.CallsTo(queue => queue.Push(A<EventWithMetadata>.That.Matches(e => fakeEvent.No.Equals(((FakeEvent)e.Event).No)))).MustHaveHappened(Repeated.Exactly.Once);
+                eventQueue.CallsTo(queue => queue.Push(A<EventWithMetadata>.That.Matches(e => fakeEvent.No.Equals(((FakeEvent)e.Event).No)), A<int>.Ignored)).MustHaveHappened(Repeated.Exactly.Once);
             }
         }
     }

@@ -13,11 +13,11 @@
         protected override void BecauseOf()
         {
             base.BecauseOf();
-            this.EventQueue.Push(new EventWithMetadata(new IntFakeEvent(1),0));
-            this.EventQueue.Push(new EventWithMetadata(new IntFakeEvent(2),0));
-            this.EventQueue.Push(new EventWithMetadata(new IntFakeEvent(3),0));
-            this.EventQueue.Push(new EventWithMetadata(new IntFakeEvent(4),0));
-            this.EventQueue.Push(new EventWithMetadata(new IntFakeEvent(5),0));
+            this.EventQueue.Push(new EventWithMetadata(new IntFakeEvent(1)),0);
+            this.EventQueue.Push(new EventWithMetadata(new IntFakeEvent(2)),0);
+            this.EventQueue.Push(new EventWithMetadata(new IntFakeEvent(3)),0);
+            this.EventQueue.Push(new EventWithMetadata(new IntFakeEvent(4)),0);
+            this.EventQueue.Push(new EventWithMetadata(new IntFakeEvent(5)),0);
         }
 
         [Test]
