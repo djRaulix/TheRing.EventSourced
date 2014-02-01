@@ -87,9 +87,11 @@ namespace WebSample
             var eventQueueFactory = new Dictionary<Type, ICollection<IEventQueue>>();
             var eventQueues = new Dictionary<Type,IEventQueue>();
 
-            foreach (var denormalizerType in typeof(UserViewDenormalizer).Assembly.GetTypes().Where(t => typeof(IHandleEvent).IsAssignableFrom(t)))
+            var denormalizerTypes = typeof(UserViewDenormalizer).Assembly.GetTypes().Where(t => t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == (typeof(IHandleEvent<>)))).ToList();
+
+            foreach (var denormalizerType in denormalizerTypes)
             {
-                eventQueues.Add(denormalizerType, (new EventQueue(new EventHandler((IHandleEvent)Activator.CreateInstance(denormalizerType), new ErrorHanlder(), new EventPositionRepository())))); 
+                eventQueues.Add(denormalizerType, (new EventQueue(new EventHandler(Activator.CreateInstance(denormalizerType), new ErrorHanlder(), new EventPositionRepository())))); 
             }
 
             foreach (var eventType in typeof(UserCreated).Assembly.GetTypes().Where(t => t.Namespace != null && t.Namespace.Equals("WebSample.Domain.User.Events")))
@@ -99,7 +101,7 @@ namespace WebSample
                     eventQueueFactory.Add(eventType, new Collection<IEventQueue>());
                 }
 
-                foreach (var denormalizerType in typeof(UserViewDenormalizer).Assembly.GetTypes().Where(t => typeof(IHandleEvent<>).MakeGenericType(eventType).IsAssignableFrom(t)))
+                foreach (var denormalizerType in denormalizerTypes)
                 {
                     if (!eventQueueFactory[eventType].Contains(eventQueues[denormalizerType]))
                     {

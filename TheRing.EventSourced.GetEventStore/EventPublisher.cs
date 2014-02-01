@@ -32,15 +32,12 @@
 
         private void Publish(EventStoreSubscription subscription, ResolvedEvent @event)
         {
-            //if (!@event.OriginalStreamId.StartsWith("$")) // do not handle system event
-            //{
-                var eventWithMetadata = eventSerializer.Deserialize(@event.OriginalEvent, @event.OriginalEventNumber);
+            var eventWithMetadata = eventSerializer.Deserialize(@event.OriginalEvent, @event.OriginalEventNumber);
 
-                foreach (var eventQueue in eventQueueFactory(eventWithMetadata.Event.GetType()))
-                {
-                    eventQueue.Push(eventWithMetadata, @event.OriginalEventNumber);
-                }
-            //}
+            foreach (var eventQueue in eventQueueFactory(eventWithMetadata.Event.GetType()))
+            {
+                eventQueue.Push(eventWithMetadata, @event.OriginalEventNumber);
+            }
         }
     }
 }
