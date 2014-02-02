@@ -2,6 +2,9 @@
 {
     using FakeItEasy;
 
+    using Thering.EventSourced.Eventing.Handlers;
+    using Thering.EventSourced.Eventing.Repositories;
+
     using TheRing.Test;
 
     public abstract class UsingEventQueue : SpecBase

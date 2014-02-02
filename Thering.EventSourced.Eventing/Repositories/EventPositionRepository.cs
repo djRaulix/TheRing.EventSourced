@@ -1,6 +1,9 @@
-﻿namespace Thering.EventSourced.Eventing
+﻿namespace Thering.EventSourced.Eventing.Repositories
 {
     using System;
+
+    using Thering.EventSourced.Eventing.Constants;
+    using Thering.EventSourced.Eventing.Events;
 
     public class EventPositionRepository : IEventPositionRepository
     {
@@ -19,7 +22,7 @@
                 Position = position
             };
 
-            eventStreamRepository.Save(StreamId.EventPositionStream, aggregateEventHandled);
+            this.eventStreamRepository.Save(StreamId.EventPositionStream, aggregateEventHandled);
         }
     }
 }

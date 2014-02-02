@@ -7,6 +7,9 @@ namespace Thering.EventSourced.Eventing.Test.UsingEventPositionRepository
 
     using NUnit.Framework;
 
+    using Thering.EventSourced.Eventing.Constants;
+    using Thering.EventSourced.Eventing.Events;
+
     public class AndSavingAnEventPosition : UsingEventPositionRepository
     {
         private readonly Type eventHandlerType = typeof(FakeEventHandler);

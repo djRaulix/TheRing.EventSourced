@@ -4,6 +4,7 @@
     using System.Diagnostics;
 
     using Thering.EventSourced.Eventing;
+    using Thering.EventSourced.Eventing.Handlers;
 
     using WebSample.Domain.User.Events;
 

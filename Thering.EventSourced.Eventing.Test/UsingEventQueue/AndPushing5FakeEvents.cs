@@ -6,6 +6,8 @@
 
     using NUnit.Framework;
 
+    using Thering.EventSourced.Eventing.Events;
+
     using TheRing.Test.Fakes;
 
     public class AndPushing5FakeEvents : UsingEventQueue

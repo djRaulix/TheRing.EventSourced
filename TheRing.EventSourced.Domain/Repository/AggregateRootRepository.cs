@@ -13,6 +13,7 @@
     using TheRing.EventSourced.Domain.Repository.Snapshot;
 
     using Thering.EventSourced.Eventing;
+    using Thering.EventSourced.Eventing.Repositories;
 
     #endregion
 

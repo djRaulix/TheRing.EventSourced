@@ -10,6 +10,7 @@
     using TheRing.EventSourced.Core;
 
     using Thering.EventSourced.Eventing;
+    using Thering.EventSourced.Eventing.Events;
 
     #endregion
 

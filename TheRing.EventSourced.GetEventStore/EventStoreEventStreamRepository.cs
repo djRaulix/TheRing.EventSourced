@@ -10,8 +10,10 @@ namespace TheRing.EventSourced.GetEventStore
     using EventStore.ClientAPI;
 
     using Thering.EventSourced.Eventing;
+    using Thering.EventSourced.Eventing.Events;
+    using Thering.EventSourced.Eventing.Repositories;
 
-    using StreamPosition = Thering.EventSourced.Eventing.StreamPosition;
+    using StreamPosition = Thering.EventSourced.Eventing.Constants.StreamPosition;
 
     #endregion
 

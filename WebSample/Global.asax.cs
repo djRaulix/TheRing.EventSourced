@@ -27,10 +27,13 @@ namespace WebSample
     using System.Collections.ObjectModel;
     using System.Linq;
 
+    using Thering.EventSourced.Eventing.Handlers;
+    using Thering.EventSourced.Eventing.Repositories;
+
     using WebSample.Domain.User.Events;
     using WebSample.Eventing;
 
-    using EventHandler = Thering.EventSourced.Eventing.EventHandler;
+    using EventHandler = Thering.EventSourced.Eventing.Handlers.EventHandler;
 
     public class MvcApplication : HttpApplication
     {

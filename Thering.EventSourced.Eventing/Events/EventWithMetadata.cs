@@ -1,4 +1,4 @@
-﻿namespace Thering.EventSourced.Eventing
+﻿namespace Thering.EventSourced.Eventing.Events
 {
     using System.Collections.Generic;
 

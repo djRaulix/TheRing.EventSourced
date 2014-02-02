@@ -10,6 +10,8 @@
     using NUnit.Framework;
 
     using Thering.EventSourced.Eventing;
+    using Thering.EventSourced.Eventing.Events;
+    using Thering.EventSourced.Eventing.Handlers;
 
     using TheRing.Test.Fakes;
 

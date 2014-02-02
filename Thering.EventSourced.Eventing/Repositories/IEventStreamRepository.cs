@@ -1,8 +1,11 @@
-﻿namespace Thering.EventSourced.Eventing
+﻿namespace Thering.EventSourced.Eventing.Repositories
 {
     #region using
 
     using System.Collections.Generic;
+
+    using Thering.EventSourced.Eventing.Constants;
+    using Thering.EventSourced.Eventing.Events;
 
     #endregion
 

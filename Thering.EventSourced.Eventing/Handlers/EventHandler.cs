@@ -1,6 +1,9 @@
-﻿namespace Thering.EventSourced.Eventing
+﻿namespace Thering.EventSourced.Eventing.Handlers
 {
     using System;
+
+    using Thering.EventSourced.Eventing.Events;
+    using Thering.EventSourced.Eventing.Repositories;
 
     public class EventHandler : IHandleEvent
     {
@@ -26,7 +29,7 @@
             try
             {
                 ((IHandleEvent<T>)this.eventHandler).Handle(@event);
-                eventPositionRepository.Save(eventHandler.GetType(), eventPosition);
+                this.eventPositionRepository.Save(this.eventHandler.GetType(), eventPosition);
             }
             catch (Exception e)
             {

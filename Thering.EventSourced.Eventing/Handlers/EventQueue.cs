@@ -1,7 +1,9 @@
-﻿namespace Thering.EventSourced.Eventing
+﻿namespace Thering.EventSourced.Eventing.Handlers
 {
     using System.Collections.Concurrent;
     using System.Threading;
+
+    using Thering.EventSourced.Eventing.Events;
 
     public class EventQueue : IEventQueue
     {
@@ -14,29 +16,29 @@
         {
             this.eventHandler = eventHandler;
             this.queue = new BlockingCollection<EventWithPosition>();
-            var waiter = new Thread(WaitAndHandle);
+            var waiter = new Thread(this.WaitAndHandle);
             waiter.Start();
         }
 
         public void Push(EventWithMetadata @event, int position)
         {
-            if (!queue.IsAddingCompleted)
+            if (!this.queue.IsAddingCompleted)
             {
-                queue.Add(new EventWithPosition(@event, position));    
+                this.queue.Add(new EventWithPosition(@event, position));    
             }
         }
 
         public void Stop()
         {
-            queue.CompleteAdding();
+            this.queue.CompleteAdding();
         }
 
         private void WaitAndHandle()
         {
-            while (!queue.IsCompleted)
+            while (!this.queue.IsCompleted)
             {
-                var eventWithPosition = queue.Take();
-                eventHandler.Handle(eventWithPosition.Event, eventWithPosition.Position);
+                var eventWithPosition = this.queue.Take();
+                this.eventHandler.Handle(eventWithPosition.Event, eventWithPosition.Position);
             }
         }
 

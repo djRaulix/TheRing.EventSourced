@@ -5,6 +5,7 @@
     using EventStore.ClientAPI;
     using EventStore.ClientAPI.SystemData;
     using Thering.EventSourced.Eventing;
+    using Thering.EventSourced.Eventing.Handlers;
 
     public class EventPublisher
     {

@@ -1,7 +1,5 @@
-﻿namespace Thering.EventSourced.Eventing
+﻿namespace Thering.EventSourced.Eventing.Events
 {
-    using System;
-
     public class AggregateEventHandled
     {
         public string EventHandlerFullTypeName { get; set; }

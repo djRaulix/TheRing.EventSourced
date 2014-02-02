@@ -3,6 +3,7 @@
     using System;
 
     using Thering.EventSourced.Eventing;
+    using Thering.EventSourced.Eventing.Handlers;
 
     public class ErrorHanlder : IHandleError
     {

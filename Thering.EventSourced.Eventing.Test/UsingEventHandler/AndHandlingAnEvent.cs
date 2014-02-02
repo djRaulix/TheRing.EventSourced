@@ -9,6 +9,8 @@ namespace Thering.EventSourced.Eventing.Test.UsingEventHandler
 
     using NUnit.Framework;
 
+    using Thering.EventSourced.Eventing.Events;
+
     using TheRing.Test.Fakes;
 
     public class AndHandlingAnEvent : UsingEventHandler

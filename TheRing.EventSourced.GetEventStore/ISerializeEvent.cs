@@ -7,6 +7,7 @@
     using EventStore.ClientAPI;
 
     using Thering.EventSourced.Eventing;
+    using Thering.EventSourced.Eventing.Events;
 
     #endregion
 

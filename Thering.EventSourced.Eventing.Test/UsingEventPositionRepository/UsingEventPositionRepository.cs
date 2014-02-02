@@ -2,6 +2,8 @@
 {
     using FakeItEasy;
 
+    using Thering.EventSourced.Eventing.Repositories;
+
     using TheRing.Test;
 
     public abstract class UsingEventPositionRepository : SpecBase

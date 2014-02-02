@@ -35,20 +35,20 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventHandler.cs" />
-    <Compile Include="EventPositionRepository.cs" />
-    <Compile Include="EventQueue.cs" />
-    <Compile Include="EventWithMetadata.cs" />
-    <Compile Include="AggregateEventHandled.cs" />
-    <Compile Include="IEventHandler.cs" />
-    <Compile Include="IEventPositionRepository.cs" />
-    <Compile Include="IHandleError.cs" />
-    <Compile Include="IEventQueue.cs" />
-    <Compile Include="IEventStreamRepository.cs" />
-    <Compile Include="IHandleEvent`1.cs" />
+    <Compile Include="Handlers\EventHandler.cs" />
+    <Compile Include="Repositories\EventPositionRepository.cs" />
+    <Compile Include="Handlers\EventQueue.cs" />
+    <Compile Include="Events\EventWithMetadata.cs" />
+    <Compile Include="Events\AggregateEventHandled.cs" />
+    <Compile Include="Handlers\IEventHandler.cs" />
+    <Compile Include="Repositories\IEventPositionRepository.cs" />
+    <Compile Include="Handlers\IHandleError.cs" />
+    <Compile Include="Handlers\IEventQueue.cs" />
+    <Compile Include="Repositories\IEventStreamRepository.cs" />
+    <Compile Include="Handlers\IHandleEvent`1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StreamId.cs" />
-    <Compile Include="StreamPosition.cs" />
+    <Compile Include="Constants\StreamId.cs" />
+    <Compile Include="Constants\StreamPosition.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

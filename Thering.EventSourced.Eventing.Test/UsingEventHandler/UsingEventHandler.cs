@@ -2,9 +2,12 @@
 {
     using FakeItEasy;
 
+    using Thering.EventSourced.Eventing.Handlers;
+    using Thering.EventSourced.Eventing.Repositories;
+
     using TheRing.Test;
 
-    using EventHandler = Thering.EventSourced.Eventing.EventHandler;
+    using EventHandler = Thering.EventSourced.Eventing.Handlers.EventHandler;
 
     public abstract class UsingEventHandler : SpecBase
     {

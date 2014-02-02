@@ -9,6 +9,7 @@
     using TheRing.EventSourced.Core;
 
     using Thering.EventSourced.Eventing;
+    using Thering.EventSourced.Eventing.Handlers;
 
     public abstract class UsingEventPublisher : Specification
     {

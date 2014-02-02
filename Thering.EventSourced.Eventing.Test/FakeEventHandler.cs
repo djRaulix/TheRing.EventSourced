@@ -8,6 +8,7 @@ namespace Thering.EventSourced.Eventing.Test
     using System.Threading;
 
     using Thering.EventSourced.Eventing;
+    using Thering.EventSourced.Eventing.Handlers;
 
     using TheRing.Test.Fakes;
 

@@ -1,4 +1,4 @@
-﻿namespace Thering.EventSourced.Eventing
+﻿namespace Thering.EventSourced.Eventing.Repositories
 {
     using System;
 
