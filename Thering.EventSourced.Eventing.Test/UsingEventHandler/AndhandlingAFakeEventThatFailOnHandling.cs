@@ -38,5 +38,12 @@
                 handler.HandleError(A<FakeEvent>.That.Matches(e => e.No == this.eventId), A<Exception>.That.Matches(e => e.Message.Equals(thrownErrorMessage))))
                              .MustHaveHappened(Repeated.Exactly.Once);
         }
+
+        [Test]
+        public void ThenEventPositionShouldNotBeSave()
+        {
+            this.EventPositionRepository.CallsTo(repo => repo.Save(A<Type>.Ignored, A<int>.Ignored))
+                .MustHaveHappened(Repeated.Never);
+        }
     }
 }

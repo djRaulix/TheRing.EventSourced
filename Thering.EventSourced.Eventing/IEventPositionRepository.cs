@@ -4,6 +4,6 @@
 
     public interface IEventPositionRepository
     {
-        void Save(Type eventHandlerType, Type eventType, int position);
+        void Save(Type eventHandlerType, int position);
     }
 }

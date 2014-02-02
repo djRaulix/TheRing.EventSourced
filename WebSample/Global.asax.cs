@@ -82,6 +82,9 @@ namespace WebSample
 
 
             container.RegisterSingle<IDispatch>(new Dispatcher(container));
+
+            container.Register<IEventPositionRepository, EventPositionRepository>();
+
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
 
             var eventQueueFactory = new Dictionary<Type, ICollection<IEventQueue>>();
@@ -91,7 +94,7 @@ namespace WebSample
 
             foreach (var denormalizerType in denormalizerTypes)
             {
-                eventQueues.Add(denormalizerType, (new EventQueue(new EventHandler(Activator.CreateInstance(denormalizerType), new ErrorHanlder(), new EventPositionRepository())))); 
+                eventQueues.Add(denormalizerType, (new EventQueue(new EventHandler(Activator.CreateInstance(denormalizerType), new ErrorHanlder(), container.GetInstance<IEventPositionRepository>())))); 
             }
 
             foreach (var eventType in typeof(UserCreated).Assembly.GetTypes().Where(t => t.Namespace != null && t.Namespace.Equals("WebSample.Domain.User.Events")))

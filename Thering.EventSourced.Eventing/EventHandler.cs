@@ -26,7 +26,7 @@
             try
             {
                 ((IHandleEvent<T>)this.eventHandler).Handle(@event);
-                eventPositionRepository.Save(eventHandler.GetType(), typeof(T), eventPosition);
+                eventPositionRepository.Save(eventHandler.GetType(), eventPosition);
             }
             catch (Exception e)
             {

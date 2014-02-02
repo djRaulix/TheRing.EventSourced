@@ -149,7 +149,6 @@
     <Compile Include="Domain\User\Events\UserCreated.cs" />
     <Compile Include="Domain\User\Events\UserDeleted.cs" />
     <Compile Include="Domain\User\UserState.cs" />
-    <Compile Include="Eventing\EventPositionRepository.cs" />
     <Compile Include="Exceptions\MaxNbAddressesReachedException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -26,7 +26,7 @@ namespace Thering.EventSourced.Eventing.Test.UsingEventHandler
         [Test]
         public void ThenEventPositionShouldBeSave()
         {
-            this.EventPositionRepository.CallsTo(repo => repo.Save(A<Type>.That.Matches(t => t == typeof(FakeEventHandler)), A<Type>.That.Matches(t => t == typeof(FakeEvent)), A<int>.That.Matches(p => p == EventPosition)))
+            this.EventPositionRepository.CallsTo(repo => repo.Save(A<Type>.That.Matches(t => t == typeof(FakeEventHandler)), A<int>.That.Matches(p => p == EventPosition)))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 
