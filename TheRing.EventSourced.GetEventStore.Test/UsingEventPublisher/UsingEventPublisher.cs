@@ -10,6 +10,7 @@
 
     using Thering.EventSourced.Eventing;
     using Thering.EventSourced.Eventing.Handlers;
+    using Thering.EventSourced.Eventing.Repositories;
 
     public abstract class UsingEventPublisher : Specification
     {
@@ -35,7 +36,7 @@
             this.EventQueue = A.Fake<IEventQueue>();
 
             this.EventStoreEventStreamRepository = new EventStoreEventStreamRepository(this.Connection, this.EventSerializer);
-            this.GetEventStoreEventBus = new GetEventStoreEventPublisher(this.Connection, this.EventSerializer, EventQueue);
+            this.GetEventStoreEventBus = new GetEventStoreEventPublisher(this.Connection, A.Fake<IEventPositionRepository>(), this.EventSerializer, EventQueue);
         }
 
         protected virtual ISerializeEvent InitEventSerializer()

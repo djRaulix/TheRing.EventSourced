@@ -7,5 +7,7 @@
         void Create(int eventPosition, int eventHandlerNumber);
 
         void Decrement(int eventPosition);
+
+        int? GetMinUnhandledPosition();
     }
 }

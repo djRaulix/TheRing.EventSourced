@@ -1,6 +1,7 @@
 ﻿namespace TheRing.EventSourced.Redis
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using ServiceStack.Redis;
 
@@ -9,23 +10,22 @@
     public class RedisEventPositionRepository : IEventPositionRepository
     {
         private readonly IRedisClient redisClient;
-        private readonly IDictionary<int, int> positions = new Dictionary<int, int>();  
+        private readonly IDictionary<int, int> positions = new Dictionary<int, int>();
+        private const string LastUnhandledEventPosition = "LastUnhandledEventPosition";
 
         public RedisEventPositionRepository(IRedisClient redisClient)
         {
             this.redisClient = redisClient;
         }
 
-        public void Create(int eventPosition, int eventHandlerNumber)
+        public void Create(int eventPosition, int eventHandlerCount)
         {
-            redisClient.Set(GetEventPositionKey(eventPosition), eventHandlerNumber);
-            redisClient.Save();
-            positions.Add(eventPosition, eventHandlerNumber);
-        }
+            if (!positions.Keys.Any() || positions.Keys.Min() > eventPosition)
+            {
+                this.UpdateLastUnhandledEventPositon(eventPosition);
+            }
 
-        private static string GetEventPositionKey(int eventPosition)
-        {
-            return "EventPosition/" + eventPosition;
+            positions.Add(eventPosition, eventHandlerCount);
         }
 
         public void Decrement(int eventPosition)
@@ -33,14 +33,24 @@
             positions[eventPosition] --;
             if (positions[eventPosition] == 0)
             {
-                redisClient.Remove(GetEventPositionKey(eventPosition));
-            }
-            else
-            {
-                redisClient.Set(GetEventPositionKey(eventPosition), positions[eventPosition]);
-              //  redisClient.Save();
+                positions.Remove(eventPosition);
+                
+                if (positions.Keys.Any() && positions.Keys.Min() > eventPosition)
+                {
+                    this.UpdateLastUnhandledEventPositon(positions.Keys.Min());
+                }
             }
         }
 
+        public int? GetMinUnhandledPosition()
+        {
+            return redisClient.Get<int?>(LastUnhandledEventPosition);
+        }
+
+        private void UpdateLastUnhandledEventPositon(int eventPosition)
+        {
+            this.redisClient.Set(LastUnhandledEventPosition, eventPosition);
+            this.redisClient.Save();
+        }
     }
 }

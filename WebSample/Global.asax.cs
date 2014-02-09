@@ -98,9 +98,11 @@ namespace WebSample
 
             var denormalizerTypes = typeof(UserViewDenormalizer).Assembly.GetTypes().Where(t => t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == (typeof(IHandleEvent<>)))).ToList();
 
+            var eventPositionRepository = container.GetInstance<IEventPositionRepository>();
+
             foreach (var denormalizerType in denormalizerTypes)
             {
-                eventQueues.Add(denormalizerType, (new EventHandlerQueue(new EventHandler(Activator.CreateInstance(denormalizerType), new ErrorHanlder(), container.GetInstance<IEventPositionRepository>())))); 
+                eventQueues.Add(denormalizerType, (new EventHandlerQueue(new EventHandler(Activator.CreateInstance(denormalizerType), new ErrorHanlder(), eventPositionRepository)))); 
             }
 
             foreach (var eventType in typeof(UserCreated).Assembly.GetTypes().Where(t => t.Namespace != null && t.Namespace.Equals("WebSample.Domain.User.Events")))
@@ -120,7 +122,7 @@ namespace WebSample
             }
 
             //eventPublisher will subsribe
-            new GetEventStoreEventPublisher(connection, container.GetInstance<ISerializeEvent>(), new EventPublisherQueue(t => eventQueueFactory[t], container.GetInstance<IEventPositionRepository>()));
+            new GetEventStoreEventPublisher(connection, eventPositionRepository, container.GetInstance<ISerializeEvent>(), new EventPublisherQueue(t => eventQueueFactory[t], eventPositionRepository));
 
             return container;
         }
