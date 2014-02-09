@@ -86,7 +86,10 @@ namespace WebSample
 
             container.RegisterSingle<IDispatch>(new Dispatcher(container));
 
-            container.Register<IEventPositionRepository, EventPositionRepository>();
+            container.Register<IRedisClientsManager>(() => new PooledRedisClientManager("localhost:6379"));
+            container.RegisterSingle(() => container.GetInstance<IRedisClientsManager>().GetCacheClient());
+
+            container.RegisterSingle<IEventPositionRepository, RedisEventPositionRepository>();
 
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
 
@@ -97,7 +100,7 @@ namespace WebSample
 
             foreach (var denormalizerType in denormalizerTypes)
             {
-                eventQueues.Add(denormalizerType, (new EventQueue(new EventHandler(Activator.CreateInstance(denormalizerType), new ErrorHanlder(), container.GetInstance<IEventPositionRepository>())))); 
+                eventQueues.Add(denormalizerType, (new EventHandlerQueue(new EventHandler(Activator.CreateInstance(denormalizerType), new ErrorHanlder(), container.GetInstance<IEventPositionRepository>())))); 
             }
 
             foreach (var eventType in typeof(UserCreated).Assembly.GetTypes().Where(t => t.Namespace != null && t.Namespace.Equals("WebSample.Domain.User.Events")))
@@ -117,7 +120,7 @@ namespace WebSample
             }
 
             //eventPublisher will subsribe
-            new EventPublisher(connection, container.GetInstance<ISerializeEvent>(),t => eventQueueFactory[t]);
+            new GetEventStoreEventPublisher(connection, container.GetInstance<ISerializeEvent>(), new EventPublisherQueue(t => eventQueueFactory[t], container.GetInstance<IEventPositionRepository>()));
 
             return container;
         }

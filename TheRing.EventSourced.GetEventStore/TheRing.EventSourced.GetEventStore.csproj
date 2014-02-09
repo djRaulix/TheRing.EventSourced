@@ -38,7 +38,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventPublisher.cs" />
+    <Compile Include="GetEventStoreEventPublisher.cs" />
     <Compile Include="EventSerializer.cs" />
     <Compile Include="EventStoreEventStreamRepository.cs" />
     <Compile Include="Exceptions\StreamVersionException.cs" />

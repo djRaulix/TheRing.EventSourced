@@ -2,20 +2,15 @@
 
 namespace TheRing.EventSourced.GetEventStore
 {
-    #region using
-
     using System.Collections.Generic;
     using System.Linq;
 
     using EventStore.ClientAPI;
 
-    using Thering.EventSourced.Eventing;
     using Thering.EventSourced.Eventing.Events;
     using Thering.EventSourced.Eventing.Repositories;
 
     using StreamPosition = Thering.EventSourced.Eventing.Constants.StreamPosition;
-
-    #endregion
 
     public class EventStoreEventStreamRepository : IEventStreamRepository
     {
@@ -62,7 +57,7 @@ namespace TheRing.EventSourced.GetEventStore
         {
             var currentSlice = this.eventStoreConnection.ReadStreamEventsBackward(streamName, fromVersion, count, false);
 
-            return currentSlice.Events.Select(evnt => this.serializer.Deserialize(evnt.OriginalEvent, evnt.OriginalEventNumber));
+            return currentSlice.Events.Select(evnt => this.serializer.Deserialize(evnt.OriginalEvent));
         }
 
         public IEnumerable<EventWithMetadata> GetWithMetadata(
@@ -72,7 +67,7 @@ namespace TheRing.EventSourced.GetEventStore
         {
             var currentSlice = this.eventStoreConnection.ReadStreamEventsForward(streamName, fromVersion, count, false);
 
-            return currentSlice.Events.Select(evnt => this.serializer.Deserialize(evnt.OriginalEvent, evnt.OriginalEventNumber));
+            return currentSlice.Events.Select(evnt => this.serializer.Deserialize(evnt.OriginalEvent));
         }
 
         public void Save(

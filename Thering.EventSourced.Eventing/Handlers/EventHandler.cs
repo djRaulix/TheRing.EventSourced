@@ -29,11 +29,14 @@
             try
             {
                 ((IHandleEvent<T>)this.eventHandler).Handle(@event);
-                this.eventPositionRepository.Save(this.eventHandler.GetType(), eventPosition);
             }
             catch (Exception e)
             {
                 this.errorHandler.HandleError(@event, e);
+            }
+            finally
+            {
+                this.eventPositionRepository.Decrement(eventPosition);
             }
         }
     }

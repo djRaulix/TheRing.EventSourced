@@ -19,12 +19,12 @@
             }
         }
 
-        protected EventQueue EventQueue { get; private set; }
+        protected EventHandlerQueue EventQueue { get; private set; }
 
         protected override void EstablishContext()
         {
             base.EstablishContext();
-            this.EventQueue = new EventQueue(new EventHandler(this.FakeEventHandler, A.Fake<IHandleError>(), A.Fake<IEventPositionRepository>()));
+            this.EventQueue = new EventHandlerQueue(new EventHandler(this.FakeEventHandler, A.Fake<IHandleError>(), A.Fake<IEventPositionRepository>()));
         }
 
         protected override void Cleanup()

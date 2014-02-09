@@ -35,9 +35,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\AbstractEventQueue.cs" />
     <Compile Include="Handlers\EventHandler.cs" />
-    <Compile Include="Repositories\EventPositionRepository.cs" />
-    <Compile Include="Handlers\EventQueue.cs" />
+    <Compile Include="Handlers\EventPublisherQueue.cs" />
+    <Compile Include="Handlers\EventHandlerQueue.cs" />
     <Compile Include="Events\EventWithMetadata.cs" />
     <Compile Include="Events\AggregateEventHandled.cs" />
     <Compile Include="Handlers\IEventHandler.cs" />

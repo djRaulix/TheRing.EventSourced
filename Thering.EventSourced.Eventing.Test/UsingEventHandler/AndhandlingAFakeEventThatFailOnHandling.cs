@@ -16,6 +16,7 @@
         private readonly Guid eventId = Guid.NewGuid();
 
         private readonly FakeEventHandlerThatFail fakeEventHandlerThatFail = new FakeEventHandlerThatFail();
+        private int eventPosition;
 
         protected override FakeEventHandler FakeEventHandler
         {
@@ -28,7 +29,8 @@
         protected override void BecauseOf()
         {
             base.BecauseOf();
-            this.EventHandler.Handle(new EventWithMetadata(new FakeEvent(this.eventId)), 0);
+            this.eventPosition = 10;
+            this.EventHandler.Handle(new EventWithMetadata(new FakeEvent(this.eventId)), this.eventPosition);
         }
 
         [Test]
@@ -42,10 +44,10 @@
         }
 
         [Test]
-        public void ThenEventPositionShouldNotBeSave()
+        public void ThenEventPositionTokenShouldBeDecrement()
         {
-            this.EventPositionRepository.CallsTo(repo => repo.Save(A<Type>.Ignored, A<int>.Ignored))
-                .MustHaveHappened(Repeated.Never);
+            this.EventPositionRepository.CallsTo(repo => repo.Decrement(A<int>.That.Matches(p => p == eventPosition)))
+                .MustHaveHappened(Repeated.Exactly.Once);
         }
     }
 }

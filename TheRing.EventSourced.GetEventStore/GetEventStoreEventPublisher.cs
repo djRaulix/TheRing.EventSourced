@@ -1,23 +1,23 @@
 ﻿namespace TheRing.EventSourced.GetEventStore
 {
     using System;
-    using System.Collections.Generic;
+
     using EventStore.ClientAPI;
     using EventStore.ClientAPI.SystemData;
-    using Thering.EventSourced.Eventing;
+
     using Thering.EventSourced.Eventing.Handlers;
 
-    public class EventPublisher
+    public class GetEventStoreEventPublisher
     {
         private readonly IEventStoreConnection eventStoreConnection;
         private readonly ISerializeEvent eventSerializer;
-        private readonly Func<Type, IEnumerable<IEventQueue>> eventQueueFactory;
+        private readonly IEventQueue eventQueue;
 
-        public EventPublisher(IEventStoreConnection eventStoreConnection, ISerializeEvent eventSerializer, Func<Type, IEnumerable<IEventQueue>> eventQueueFactory)
+        public GetEventStoreEventPublisher(IEventStoreConnection eventStoreConnection, ISerializeEvent eventSerializer, IEventQueue eventQueue)
         {
             this.eventStoreConnection = eventStoreConnection;
             this.eventSerializer = eventSerializer;
-            this.eventQueueFactory = eventQueueFactory;
+            this.eventQueue = eventQueue;
             Subscribe();
         }
 
@@ -33,12 +33,8 @@
 
         private void Publish(EventStoreSubscription subscription, ResolvedEvent @event)
         {
-            var eventWithMetadata = eventSerializer.Deserialize(@event.OriginalEvent, @event.OriginalEventNumber);
-
-            foreach (var eventQueue in eventQueueFactory(eventWithMetadata.Event.GetType()))
-            {
-                eventQueue.Push(eventWithMetadata, @event.OriginalEventNumber);
-            }
+            var eventWithMetadata = eventSerializer.Deserialize(@event.OriginalEvent);
+            eventQueue.Push(eventWithMetadata, @event.OriginalEventNumber);
         }
     }
 }

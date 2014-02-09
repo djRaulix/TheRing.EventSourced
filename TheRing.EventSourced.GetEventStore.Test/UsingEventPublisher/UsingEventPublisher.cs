@@ -13,17 +13,11 @@
 
     public abstract class UsingEventPublisher : Specification
     {
+        protected IEventQueue EventQueue { get; private set; }
+
         #region Properties
 
-        protected EventPublisher EventBus { get; private set; }
-
-        protected virtual Func<Type, IEnumerable<IEventQueue>> EventQueuesFactory
-        {
-            get
-            {
-                return t => new[] { A.Fake<IEventQueue>() };
-            }
-        }
+        protected GetEventStoreEventPublisher GetEventStoreEventBus { get; private set; }
 
         protected ISerializeEvent EventSerializer { get; private set; }
 
@@ -38,9 +32,10 @@
             base.EstablishContext();
 
             this.EventSerializer = this.InitEventSerializer();
+            this.EventQueue = A.Fake<IEventQueue>();
 
             this.EventStoreEventStreamRepository = new EventStoreEventStreamRepository(this.Connection, this.EventSerializer);
-            this.EventBus = new EventPublisher(this.Connection, this.EventSerializer, EventQueuesFactory);
+            this.GetEventStoreEventBus = new GetEventStoreEventPublisher(this.Connection, this.EventSerializer, EventQueue);
         }
 
         protected virtual ISerializeEvent InitEventSerializer()

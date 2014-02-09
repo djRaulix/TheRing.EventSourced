@@ -42,7 +42,7 @@
 
         #region Public Methods and Operators
 
-        public EventWithMetadata Deserialize(RecordedEvent recordedEvent, int eventPosition)
+        public EventWithMetadata Deserialize(RecordedEvent recordedEvent)
         {
             var eventHeaders = this.serializer.Deserialize<Dictionary<string, object>>(recordedEvent.Metadata);
             var @event = this.serializer.Deserialize(

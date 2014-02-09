@@ -5,16 +5,12 @@
 
     using Thering.EventSourced.Eventing.Events;
 
-    public class EventQueue : IEventQueue
+    public abstract class AbstractEventQueue : IEventQueue
     {
-        private readonly IHandleEvent eventHandler;
-
         private readonly BlockingCollection<EventWithPosition> queue;
 
-
-        public EventQueue(IHandleEvent eventHandler)
+        protected AbstractEventQueue()
         {
-            this.eventHandler = eventHandler;
             this.queue = new BlockingCollection<EventWithPosition>();
             var waiter = new Thread(this.WaitAndHandle);
             waiter.Start();
@@ -24,6 +20,7 @@
         {
             if (!this.queue.IsAddingCompleted)
             {
+                this.BeforePushing(@event, position);
                 this.queue.Add(new EventWithPosition(@event, position));    
             }
         }
@@ -38,15 +35,21 @@
             while (!this.queue.IsCompleted)
             {
                 var eventWithPosition = this.queue.Take();
-                this.eventHandler.Handle(eventWithPosition.Event, eventWithPosition.Position);
+                this.HandleEvent(eventWithPosition.Event, eventWithPosition.Position);
             }
         }
 
+        protected virtual void BeforePushing(EventWithMetadata @event, int position)
+        {
+        }
+
+        protected abstract void HandleEvent(EventWithMetadata @event, int eventPosition);
+
         private class EventWithPosition
         {
-            public readonly EventWithMetadata Event;
+            internal readonly EventWithMetadata Event;
 
-            public readonly int Position;
+            internal readonly int Position;
 
             public EventWithPosition(EventWithMetadata @event, int position)
             {

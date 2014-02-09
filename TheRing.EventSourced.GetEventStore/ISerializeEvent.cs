@@ -15,7 +15,7 @@
     {
         #region Public Methods and Operators
 
-        EventWithMetadata Deserialize(RecordedEvent recordedEvent, int eventPosition);
+        EventWithMetadata Deserialize(RecordedEvent recordedEvent);
 
         EventData Serialize(object @event, IDictionary<string, object> headers = null);
 

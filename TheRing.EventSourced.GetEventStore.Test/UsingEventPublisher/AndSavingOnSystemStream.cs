@@ -25,16 +25,6 @@ namespace TheRing.EventSourced.GetEventStore.Test.UsingEventPublisher
 
         private const string StreamName = "$TestSystemStream";
 
-        private readonly IEventQueue eventQueue = A.Fake<IEventQueue>();
-
-        protected override Func<Type, IEnumerable<IEventQueue>> EventQueuesFactory
-        {
-            get
-            {
-                return t => new[] { eventQueue };
-            }
-        }
-
         protected override void BecauseOf()
         {
             base.BecauseOf();
@@ -53,7 +43,7 @@ namespace TheRing.EventSourced.GetEventStore.Test.UsingEventPublisher
         {
             //Attente car operation asynchrone
             Thread.Sleep(1000);
-            fakeEventSerializer.CallsTo(s => s.Deserialize(A<RecordedEvent>.Ignored, A<int>.Ignored)).MustHaveHappened(Repeated.Never);
+            fakeEventSerializer.CallsTo(s => s.Deserialize(A<RecordedEvent>.Ignored)).MustHaveHappened(Repeated.Never);
         }
 
         [Test]
@@ -61,7 +51,7 @@ namespace TheRing.EventSourced.GetEventStore.Test.UsingEventPublisher
         {
             //Attente car operation asynchrone
             Thread.Sleep(1000);
-            eventQueue.CallsTo(q => q.Push(A<EventWithMetadata>.Ignored, A<int>.Ignored)).MustHaveHappened(Repeated.Never);
+            EventQueue.CallsTo(q => q.Push(A<EventWithMetadata>.Ignored, A<int>.Ignored)).MustHaveHappened(Repeated.Never);
         }
     }
 }
