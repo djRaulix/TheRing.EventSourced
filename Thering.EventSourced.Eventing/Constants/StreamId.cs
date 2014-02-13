@@ -2,6 +2,8 @@
 {
     public static class StreamId
     {
-        public const string EventPositionStream = "$EventPositionStream";
+        public const string AllAggregatesStream = "$AllAggregatesStream";
+
+        public const string EventTypesStream = "$EventTypesStream";
     }
 }

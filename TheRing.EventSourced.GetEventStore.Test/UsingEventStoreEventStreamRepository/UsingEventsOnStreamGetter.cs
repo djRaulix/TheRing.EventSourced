@@ -3,6 +3,7 @@
     #region using
 
     using TheRing.EventSourced.Core;
+    using TheRing.EventSourced.GetEventStore.Serializers;
 
     #endregion
 

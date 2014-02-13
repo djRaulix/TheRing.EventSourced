@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RedisErrorHandler.cs" />
     <Compile Include="RedisEventPositionRepository.cs" />
     <Compile Include="RedisSnapshoter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -28,7 +28,7 @@ namespace Thering.EventSourced.Eventing.Test.UsingEventHandler
         [Test]
         public void ThenEventPositionTokenShouldBeDecrement()
         {
-            this.EventPositionRepository.CallsTo(repo => repo.Decrement(A<int>.That.Matches(p => p == EventPosition)))
+            this.EventPositionManager.CallsTo(repo => repo.Decrement(A<int>.That.Matches(p => p == EventPosition)))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
 

@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ITypeAliaser.cs" />
     <Compile Include="ISerialize.cs" />
     <Compile Include="Log\ConsoleLogger.cs" />
     <Compile Include="Log\ILogger.cs" />
@@ -53,7 +52,6 @@
     <Compile Include="Reflection\Activator\Activator`2.cs" />
     <Compile Include="Reflection\Activator\Activator`1.cs" />
     <Compile Include="Reflection\Activator\TypeExtensions.cs" />
-    <Compile Include="TypeAliaser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

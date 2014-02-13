@@ -10,6 +10,8 @@ namespace TheRing.EventSourced.GetEventStore
     using Thering.EventSourced.Eventing.Events;
     using Thering.EventSourced.Eventing.Repositories;
 
+    using TheRing.EventSourced.GetEventStore.Serializers;
+
     using StreamPosition = Thering.EventSourced.Eventing.Constants.StreamPosition;
 
     public class EventStoreEventStreamRepository : IEventStreamRepository
@@ -65,7 +67,7 @@ namespace TheRing.EventSourced.GetEventStore
             int fromVersion = StreamPosition.Start, 
             int count = int.MaxValue)
         {
-            var currentSlice = this.eventStoreConnection.ReadStreamEventsForward(streamName, fromVersion, count, false);
+            var currentSlice = this.eventStoreConnection.ReadStreamEventsForward(streamName, fromVersion, count, false, new UserCredentials("admin", "changeit"));
 
             return currentSlice.Events.Select(evnt => this.serializer.Deserialize(evnt.OriginalEvent));
         }
@@ -80,7 +82,7 @@ namespace TheRing.EventSourced.GetEventStore
 
             var eventsToSave = events.Select(e => this.serializer.Serialize(e, headers));
 
-            this.eventStoreConnection.AppendToStream(streamName, expectVersion, eventsToSave, new UserCredentials("admin", "admin"));
+            this.eventStoreConnection.AppendToStream(streamName, expectVersion, eventsToSave, new UserCredentials("admin", "changeit"));
         }
 
         public void Save(

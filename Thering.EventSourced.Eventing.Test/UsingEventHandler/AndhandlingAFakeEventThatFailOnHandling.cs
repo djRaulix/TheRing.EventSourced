@@ -38,15 +38,19 @@
         {
             var thrownErrorMessage = fakeEventHandlerThatFail.ThrownException.Message;
 
-            this.ErrorHandler.CallsTo(handler => 
-                handler.HandleError(A<FakeEvent>.That.Matches(e => e.No == this.eventId), A<Exception>.That.Matches(e => e.Message.Equals(thrownErrorMessage))))
+            this.ErrorHandler.CallsTo(handler =>
+                handler.HandleError(
+                        A<FakeEvent>.That.Matches(e => e.No == this.eventId), 
+                        A<int>.That.Matches(pos => pos == eventPosition), 
+                        A<Type>.That.Matches(t => typeof(FakeEventHandlerThatFail) == t), 
+                        A<Exception>.That.Matches(e => e.Message.Equals(thrownErrorMessage))))
                              .MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Test]
         public void ThenEventPositionTokenShouldBeDecrement()
         {
-            this.EventPositionRepository.CallsTo(repo => repo.Decrement(A<int>.That.Matches(p => p == eventPosition)))
+            this.EventPositionManager.CallsTo(repo => repo.Decrement(A<int>.That.Matches(p => p == eventPosition)))
                 .MustHaveHappened(Repeated.Exactly.Once);
         }
     }

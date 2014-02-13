@@ -1,15 +1,10 @@
-﻿namespace TheRing.EventSourced.GetEventStore
+﻿namespace TheRing.EventSourced.GetEventStore.Serializers
 {
-    #region using
-
     using System.Collections.Generic;
 
     using EventStore.ClientAPI;
 
-    using Thering.EventSourced.Eventing;
     using Thering.EventSourced.Eventing.Events;
-
-    #endregion
 
     public interface ISerializeEvent
     {

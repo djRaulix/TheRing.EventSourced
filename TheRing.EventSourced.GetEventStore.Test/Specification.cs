@@ -6,7 +6,13 @@
 
     using EventStore.ClientAPI;
 
+    using FakeItEasy;
+
     using TheRing.EventSourced.Core;
+
+    using Thering.EventSourced.Eventing.Aliaser;
+
+    using TheRing.EventSourced.GetEventStore.Serializers;
     using TheRing.Test;
     using TheRing.Test.Fakes;
 
@@ -32,7 +38,10 @@
         protected override void EstablishContext()
         {
             base.EstablishContext();
-            this.Aliaser = new TypeAliaser().AddAlias(typeof(object).Name, typeof(object))
+            var aliaserConnection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
+            aliaserConnection.Connect();
+            this.Aliaser = new FakeTypeAlliaser(new EventStoreEventStreamRepository(aliaserConnection, new TypeSerializer(new ServiceStackJsonSerializer())))
+                .AddAlias(typeof(object).Name, typeof(object))
                 .AddAlias(typeof(FakeEvent).Name, typeof(FakeEvent));
             this.Connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
             this.Connection.Connect();

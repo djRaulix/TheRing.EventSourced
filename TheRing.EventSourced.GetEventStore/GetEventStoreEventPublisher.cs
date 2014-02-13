@@ -5,8 +5,11 @@
     using EventStore.ClientAPI;
     using EventStore.ClientAPI.SystemData;
 
+    using Thering.EventSourced.Eventing.Constants;
     using Thering.EventSourced.Eventing.Handlers;
     using Thering.EventSourced.Eventing.Repositories;
+
+    using TheRing.EventSourced.GetEventStore.Serializers;
 
     public class GetEventStoreEventPublisher
     {
@@ -26,19 +29,23 @@
 
         private void Subscribe()
         {
-            var lastPositionToHandle = eventPositionRepository.GetMinUnhandledPosition();
-            eventStoreConnection.SubscribeToStreamFrom("$AllAggregatesStream", lastPositionToHandle, true, Publish, Disconnect, userCredentials: new UserCredentials("admin", "admin"));
+            var lastPositionToHandle = eventPositionRepository.GetlastPosition();
+            eventStoreConnection.SubscribeToStreamFrom(StreamId.AllAggregatesStream, lastPositionToHandle, true, Publish, subscriptionDropped: Disconnect, userCredentials: new UserCredentials("admin", "changeit"));
         }
 
-        private void Disconnect(EventStoreCatchUpSubscription eventStoreSubscription)
+        private void Disconnect(
+            EventStoreCatchUpSubscription subscription,
+            SubscriptionDropReason dropReason,
+            Exception exception)
         {
-            Subscribe();
+            //TODO gestion de reconnection
+            subscription.Start();
         }
 
         private void Publish(EventStoreCatchUpSubscription subscription, ResolvedEvent @event)
         {
             var eventWithMetadata = eventSerializer.Deserialize(@event.OriginalEvent);
-            eventQueue.Push(eventWithMetadata, @event.OriginalEventNumber);
+            eventQueue.Push(eventWithMetadata, @event.OriginalEventNumber);  
         }
     }
 }

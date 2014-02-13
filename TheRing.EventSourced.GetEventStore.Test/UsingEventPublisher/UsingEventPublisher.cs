@@ -1,16 +1,13 @@
 ﻿namespace TheRing.EventSourced.GetEventStore.Test.UsingEventPublisher
 {
-
-    using System;
-    using System.Collections.Generic;
-
     using FakeItEasy;
 
     using TheRing.EventSourced.Core;
 
-    using Thering.EventSourced.Eventing;
     using Thering.EventSourced.Eventing.Handlers;
     using Thering.EventSourced.Eventing.Repositories;
+
+    using TheRing.EventSourced.GetEventStore.Serializers;
 
     public abstract class UsingEventPublisher : Specification
     {

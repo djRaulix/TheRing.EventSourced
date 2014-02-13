@@ -1,7 +1,5 @@
-﻿namespace TheRing.EventSourced.GetEventStore
+﻿namespace TheRing.EventSourced.GetEventStore.Serializers
 {
-    #region using
-
     using System;
     using System.Collections.Generic;
 
@@ -9,33 +7,21 @@
 
     using TheRing.EventSourced.Core;
 
-    using Thering.EventSourced.Eventing;
     using Thering.EventSourced.Eventing.Events;
 
-    #endregion
-
-    public class EventSerializer : ISerializeEvent
+    public class TypeSerializer : ISerializeEvent
     {
-        #region Constants
-
-        private const string EventTypeHeader = "EventTypeName";
-
-        #endregion
-
         #region Fields
 
         private readonly ISerialize serializer;
-
-        private readonly ITypeAliaser typeAliaser;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public EventSerializer(ISerialize serializer, ITypeAliaser typeAliaser)
+        public TypeSerializer(ISerialize serializer)
         {
             this.serializer = serializer;
-            this.typeAliaser = typeAliaser;
         }
 
         #endregion
@@ -46,8 +32,8 @@
         {
             var eventHeaders = this.serializer.Deserialize<Dictionary<string, object>>(recordedEvent.Metadata);
             var @event = this.serializer.Deserialize(
-                recordedEvent.Data, 
-                this.typeAliaser.GetType(recordedEvent.EventType));
+                recordedEvent.Data,
+                typeof(Type));
 
             return new EventWithMetadata(@event, eventHeaders);
         }
@@ -60,7 +46,7 @@
 
             var metadata = this.serializer.Serialize(eventHeaders);
 
-            return new EventData(Guid.NewGuid(), this.typeAliaser.GetAlias(@event), true, data, metadata);
+            return new EventData(Guid.NewGuid(), typeof(Type).AssemblyQualifiedName, true, data, metadata);
         }
 
         #endregion

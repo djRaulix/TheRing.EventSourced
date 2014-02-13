@@ -1,11 +1,11 @@
-﻿namespace TheRing.EventSourced.Core
+﻿namespace Thering.EventSourced.Eventing.Aliaser
 {
-    #region using
-
     using System;
     using System.Collections.Concurrent;
+    using System.Linq;
 
-    #endregion
+    using Thering.EventSourced.Eventing.Constants;
+    using Thering.EventSourced.Eventing.Repositories;
 
     public class TypeAliaser : ITypeAliaser
     {
@@ -15,9 +15,22 @@
 
         private readonly ConcurrentDictionary<string, Type> types = new ConcurrentDictionary<string, Type>();
 
+        private readonly IEventStreamRepository eventStreamRepository;
+
         #endregion
 
         #region Constructors and Destructors
+
+        public TypeAliaser(IEventStreamRepository eventStreamRepository)
+        {
+            this.eventStreamRepository = eventStreamRepository;
+            
+            foreach (var eventType in this.eventStreamRepository.Get(StreamId.EventTypesStream).Where(e => e != null).Cast<Type>())
+            {
+                this.types[eventType.AssemblyQualifiedName] = eventType;
+                this.aliases[eventType] = eventType.AssemblyQualifiedName;
+            }
+        }
 
         #endregion
 
@@ -27,6 +40,7 @@
         {
             this.types[alias] = type;
             this.aliases[type] = alias;
+            this.eventStreamRepository.Save(StreamId.EventTypesStream, type);
             return this;
         }
 
@@ -35,7 +49,7 @@
             return this.GetAlias(@object.GetType());
         }
 
-        public string GetAlias(Type type)
+        private string GetAlias(Type type)
         {
             string alias;
 

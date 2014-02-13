@@ -24,14 +24,14 @@
 
         protected EventHandler EventHandler { get; private set; }
 
-        protected IEventPositionRepository EventPositionRepository { get; private set; }
+        protected IEventPositionManager EventPositionManager { get; private set; }
 
         protected override void EstablishContext()
         {
             base.EstablishContext();
             this.ErrorHandler = A.Fake<IHandleError>();
-            this.EventPositionRepository = A.Fake<IEventPositionRepository>();
-            this.EventHandler = new EventHandler(FakeEventHandler, this.ErrorHandler, EventPositionRepository);
+            this.EventPositionManager = A.Fake<IEventPositionManager>();
+            this.EventHandler = new EventHandler(FakeEventHandler, this.ErrorHandler, EventPositionManager);
         }
     }
 }

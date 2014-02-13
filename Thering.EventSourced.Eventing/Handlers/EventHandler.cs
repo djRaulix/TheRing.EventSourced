@@ -9,13 +9,13 @@
     {
         private readonly object eventHandler;
         private readonly IHandleError errorHandler;
-        private readonly IEventPositionRepository eventPositionRepository;
+        private readonly IEventPositionManager eventPositionManager;
 
-        public EventHandler(object eventHandler, IHandleError errorHandler, IEventPositionRepository eventPositionRepository)
+        public EventHandler(object eventHandler, IHandleError errorHandler, IEventPositionManager eventPositionManager)
         {
             this.eventHandler = eventHandler;
             this.errorHandler = errorHandler;
-            this.eventPositionRepository = eventPositionRepository;
+            this.eventPositionManager = eventPositionManager;
         }
 
         public void Handle(EventWithMetadata eventWithMetadata, int positon)
@@ -32,11 +32,11 @@
             }
             catch (Exception e)
             {
-                this.errorHandler.HandleError(@event, e);
+                this.errorHandler.HandleError(@event, eventPosition, this.eventHandler.GetType(), e);
             }
             finally
             {
-                this.eventPositionRepository.Decrement(eventPosition);
+                this.eventPositionManager.Decrement(eventPosition);
             }
         }
     }

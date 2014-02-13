@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Eventing\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -142,7 +143,6 @@
     <Compile Include="Commanding\AddUserCommand.cs" />
     <Compile Include="Commanding\UserCommandHandler.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Eventing\ErrorHanlder.cs" />
     <Compile Include="Domain\User\User.cs" />
     <Compile Include="Domain\User\Events\UserAddressAdded.cs" />
     <Compile Include="Domain\User\Events\UserConfirmed.cs" />

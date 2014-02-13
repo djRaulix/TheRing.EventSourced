@@ -1,9 +1,7 @@
 ﻿namespace WebSample.ReadModel
 {
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
 
-    using Thering.EventSourced.Eventing;
     using Thering.EventSourced.Eventing.Handlers;
 
     using WebSample.Domain.User.Events;
@@ -13,7 +11,8 @@
         public void Handle(UserAddressAdded @event)
         {
             AdressView.Adresses.Add(@event.Address);
-            Trace.WriteLine("AdressViewDenormalizer handled UserAddressAdded event !");
+            //throw new Exception("Could not handle fucking event");
+
         }
 
         public void Handle(UserCreated @event)

@@ -4,6 +4,6 @@
 
     public interface IHandleError
     {
-        void HandleError(object @event, Exception exception);
+        void HandleError(object @event, int eventPosition, Type eventHandlerType ,Exception exception);
     }
 }

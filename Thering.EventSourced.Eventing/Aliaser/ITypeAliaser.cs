@@ -1,4 +1,4 @@
-﻿namespace TheRing.EventSourced.Core
+﻿namespace Thering.EventSourced.Eventing.Aliaser
 {
     #region using
 
@@ -11,8 +11,6 @@
         #region Public Methods and Operators
 
         Type GetType(string alias);
-
-        string GetAlias(Type type);
 
         string GetAlias(object @object);
 

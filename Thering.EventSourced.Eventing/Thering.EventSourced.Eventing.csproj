@@ -42,6 +42,9 @@
     <Compile Include="Events\EventWithMetadata.cs" />
     <Compile Include="Events\AggregateEventHandled.cs" />
     <Compile Include="Handlers\IEventHandler.cs" />
+    <Compile Include="Aliaser\ITypeAliaser.cs" />
+    <Compile Include="Repositories\EventPositionManager.cs" />
+    <Compile Include="Repositories\IEventPositionManager.cs" />
     <Compile Include="Repositories\IEventPositionRepository.cs" />
     <Compile Include="Handlers\IHandleError.cs" />
     <Compile Include="Handlers\IEventQueue.cs" />
@@ -50,9 +53,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants\StreamId.cs" />
     <Compile Include="Constants\StreamPosition.cs" />
+    <Compile Include="Aliaser\TypeAliaser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TheRing.EventSourced.Core\TheRing.EventSourced.Core.csproj">
+      <Project>{B88AD40E-6724-427F-AD21-D2215DC646BC}</Project>
+      <Name>TheRing.EventSourced.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

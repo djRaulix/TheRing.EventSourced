@@ -24,7 +24,7 @@
         protected override void EstablishContext()
         {
             base.EstablishContext();
-            this.EventQueue = new EventHandlerQueue(new EventHandler(this.FakeEventHandler, A.Fake<IHandleError>(), A.Fake<IEventPositionRepository>()));
+            this.EventQueue = new EventHandlerQueue(new EventHandler(this.FakeEventHandler, A.Fake<IHandleError>(), A.Fake<IEventPositionManager>()));
         }
 
         protected override void Cleanup()

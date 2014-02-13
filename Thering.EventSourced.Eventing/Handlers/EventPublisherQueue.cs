@@ -10,17 +10,17 @@
     public class EventPublisherQueue : AbstractEventQueue
     {
         private readonly Func<Type, IEnumerable<IEventQueue>> eventQueueFactory;
-        private readonly IEventPositionRepository eventPositionRepository;
+        private readonly IEventPositionManager eventPositionManager;
 
-        public EventPublisherQueue(Func<Type, IEnumerable<IEventQueue>> eventQueueFactory, IEventPositionRepository eventPositionRepository)
+        public EventPublisherQueue(Func<Type, IEnumerable<IEventQueue>> eventQueueFactory, IEventPositionManager eventPositionManager)
         {
             this.eventQueueFactory = eventQueueFactory;
-            this.eventPositionRepository = eventPositionRepository;
+            this.eventPositionManager = eventPositionManager;
         }
 
         protected override void BeforePushing(EventWithMetadata @event, int eventPosition)
         {
-            this.eventPositionRepository.Create(eventPosition, this.eventQueueFactory(@event.Event.GetType()).Count());
+            this.eventPositionManager.Create(eventPosition, this.eventQueueFactory(@event.Event.GetType()).Count());
         }
 
         protected override void HandleEvent(EventWithMetadata @event, int eventPosition)

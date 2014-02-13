@@ -1,7 +1,9 @@
 ﻿namespace TheRing.EventSourced.Redis
 {
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
 
     using ServiceStack.Redis;
 
@@ -10,47 +12,59 @@
     public class RedisEventPositionRepository : IEventPositionRepository
     {
         private readonly IRedisClient redisClient;
-        private readonly IDictionary<int, int> positions = new Dictionary<int, int>();
-        private const string LastUnhandledEventPosition = "LastUnhandledEventPosition";
+        private const string LastUnhandledEventPosition = "urn:LastUnhandledEventPosition";
+
+        private readonly BlockingCollection<int> queue = new BlockingCollection<int>();
+
+        private readonly List<int> handledPositions = new List<int>();
+
+        private int lastSavedPosition;
 
         public RedisEventPositionRepository(IRedisClient redisClient)
         {
             this.redisClient = redisClient;
+            this.lastSavedPosition = this.GetlastPosition() ?? -1;
+            var waiter = new Thread(this.WaitAndHandle);
+            waiter.Start();
         }
 
-        public void Create(int eventPosition, int eventHandlerCount)
-        {
-            if (!positions.Keys.Any() || positions.Keys.Min() > eventPosition)
-            {
-                this.UpdateLastUnhandledEventPositon(eventPosition);
-            }
 
-            positions.Add(eventPosition, eventHandlerCount);
-        }
-
-        public void Decrement(int eventPosition)
+        private void WaitAndHandle()
         {
-            positions[eventPosition] --;
-            if (positions[eventPosition] == 0)
+            while (!this.queue.IsCompleted)
             {
-                positions.Remove(eventPosition);
-                
-                if (positions.Keys.Any() && positions.Keys.Min() > eventPosition)
+                var eventPosition = this.queue.Take();
+                handledPositions.Add(eventPosition);
+                var initialValue = lastSavedPosition;
+                while (handledPositions.Any() && handledPositions.Min() - lastSavedPosition == 1)
                 {
-                    this.UpdateLastUnhandledEventPositon(positions.Keys.Min());
+                    lastSavedPosition = handledPositions.Min();
+                    handledPositions.Remove(handledPositions.Min());
+                }
+                if (initialValue != lastSavedPosition)
+                {
+                    this.redisClient.Set(LastUnhandledEventPosition, lastSavedPosition);
+                    this.redisClient.SaveAsync();
                 }
             }
         }
 
-        public int? GetMinUnhandledPosition()
+        public void Stop()
+        {
+            this.queue.CompleteAdding();
+        }
+
+        public int? GetlastPosition()
         {
             return redisClient.Get<int?>(LastUnhandledEventPosition);
         }
 
-        private void UpdateLastUnhandledEventPositon(int eventPosition)
+        public void SavePosition(int eventPosition)
         {
-            this.redisClient.Set(LastUnhandledEventPosition, eventPosition);
-            this.redisClient.Save();
+            if (!this.queue.IsAddingCompleted)
+            {
+                this.queue.Add(eventPosition);
+            }
         }
     }
 }

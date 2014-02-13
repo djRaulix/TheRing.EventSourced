@@ -6,6 +6,7 @@ namespace TheRing.EventSourced.GetEventStore.Test.UsingEventPublisher
     using Thering.EventSourced.Eventing.Events;
     using Thering.EventSourced.Eventing.Handlers;
 
+    using TheRing.EventSourced.GetEventStore.Serializers;
     using TheRing.Test.Fakes;
 
     using System;
